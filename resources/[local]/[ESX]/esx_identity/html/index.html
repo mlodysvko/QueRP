@@ -1,0 +1,31 @@
+<html>
+	<head>
+		<script src="nui://game/ui/jquery.js" type="text/javascript"></script>
+		<link href="style.css" rel="stylesheet" type="text/css" />
+	</head>
+
+	<body>
+		<div class="bar-top"></div>
+		<div class="bar-bottom"></div>
+			<form id="register">
+				    <div class="box">
+					<h1 class="box-heading">Tworzenie Postaci</h1>
+					<label class="input-name" for="firstname"><center>Imię:</center></label>
+					<center><input id="firstname" type="text"><br></center>
+					<label class="input-name" for="lastname"><center>Nazwisko:</center></label>
+					<center><input id="lastname" type="text"><br></center>
+					<label class="input-name" for="height"><center>Wzrost:</center></label>
+					<center><input id="height" type="text" placeholder="140-200cm"><br><center>
+					<label class="input-name" for="dateofbirth"><center>Data Urodzenia:</center></label>
+					<center><input id="dateofbirth" type="date"><br></center>
+					<label class="input-name" for="radio"><center>Płeć:</center></label>
+					<input type="radio" id="radio1" name="sex" value="m" checked/>
+					<label class="genderstyle" for="radio1">Mężczyzna</label>
+					<input type="radio" id="radio2" name="sex" value="f" />
+					<label class="genderstyle" for="radio2">Kobieta</label>
+					<center><button id="submit" type="submit">Zapisz</button></center>
+			</form>
+		</div>
+		<script src="script.js" type="text/javascript"></script>
+	</body>
+</html>

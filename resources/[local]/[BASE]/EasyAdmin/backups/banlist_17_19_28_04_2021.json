@@ -1,0 +1,61 @@
+[
+    {
+        "name": "Maksiu",
+        "reason": "cheaty ( Gracz: Maksiu ), Zablokowany przez: Kubixanty",
+        "banner": "Kubixanty",
+        "expire": 10444633200,
+        "banid": 7,
+        "identifiers": [
+            "steam:11000014130bb04",
+            "license:aaa93a9c014c3d62a837ec12540d0b1ec31d9179",
+            "discord:365883740255158272",
+            "license2:aaa93a9c014c3d62a837ec12540d0b1ec31d9179",
+            "ip:83.4.175.228"
+        ]
+    },
+    {
+        "name": "ˢᶻᵉᶠparapet.exe",
+        "reason": "cl ( Gracz: ˢᶻᵉᶠparapet.exe ), Zablokowany przez: 2 palce w natalce",
+        "banner": "2 palce w natalce",
+        "expire": 10444633200,
+        "banid": 12,
+        "identifiers": [
+            "steam:11000014712395c",
+            "license:90efdec8d52de001df2625398f98636a28d64b19",
+            "discord:739907964328214609",
+            "license2:90efdec8d52de001df2625398f98636a28d64b19",
+            "ip:195.191.162.252"
+        ]
+    },
+    {
+        "name": "starszym",
+        "reason": "\"banroom\" ( Gracz: starszym ), Zablokowany przez: ^6Koro",
+        "banner": "^6Koro",
+        "expire": 10444633200,
+        "banid": 13,
+        "identifiers": [
+            "steam:11000013ebab345",
+            "license:47277a273a3b0548d40b2fe4beaefd09397e86bd",
+            "xbl:2535461447858475",
+            "live:985154502244595",
+            "discord:693159710840586270",
+            "license2:47277a273a3b0548d40b2fe4beaefd09397e86bd",
+            "ip:89.64.34.26"
+        ]
+    },
+    {
+        "name": "Młody",
+        "reason": "cl ( Gracz: Młody ), Zablokowany przez: 2 palce w natalce",
+        "banner": "2 palce w natalce",
+        "expire": 10444633200,
+        "banid": 15,
+        "identifiers": [
+            "steam:11000013ff49aef",
+            "license:40cfb455682d44c7b1c52c323c57628042cc20d7",
+            "xbl:2535433910943117",
+            "live:1055518525298705",
+            "discord:688317390122909706",
+            "ip:91.232.164.249"
+        ]
+    }
+]

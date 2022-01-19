@@ -1,0 +1,148 @@
+<html>
+<head>
+    <script src="nui://game/ui/jquery.js" type="text/javascript"></script>
+    <link rel="stylesheet" type="text/css" href="style.css">
+
+
+</head>
+<body>
+<div class="general">
+	<div class="zdrapa"></div>
+	
+	<div class="content2">No i po 500$</div>
+
+</div>
+<div class="general2">
+		<div class="zdrapa"></div>
+	
+		<div class="content2">Wracaj do pracy</div>
+	
+	</div>
+	<div class="general3">
+			<div class="zdrapa"></div>
+		
+			<div class="content2">750$</div>
+		
+		</div>
+		<div class="general4">
+				<div class="zdrapa"></div>
+			
+				<div class="content2">1250$</div>
+			
+			</div>
+			<div class="general5">
+					<div class="zdrapa"></div>
+			
+					<div class="content2">2750$</div>
+				
+				</div>
+				<div class="general6">
+					<div class="zdrapa"></div>
+			
+					<div class="content2">No to teraz zabraknie na amarene</div>
+				
+				</div>
+				<div class="general7">
+					<div class="zdrapa"></div>
+			
+					<div class="content2">Trzeba wrocic na zlom...</div>
+				
+				</div>
+				<div class="general8">
+					<div class="zdrapa"></div>
+			
+					<div class="content2">Brawo! Nic nie wygrales</div>
+				
+				</div>
+				<div class="general9">
+					<div class="zdrapa"></div>
+			
+					<div class="content2">2750$... zart</div>
+				
+				</div>
+</body>
+</html>
+
+
+
+<script type="text/javascript">
+
+
+
+
+
+
+	$(function() {
+		/* open the UI for user */
+		window.addEventListener('message', function(event) {
+		   
+    
+
+			if (event.data.type == "openGeneral"){
+                $('.general').css('display', 'block')
+			
+
+			} else if (event.data.type == "closeAll"){
+                $('.general').css('display', 'none')
+			} 
+			
+			if (event.data.type == "openGeneral2"){
+                $('.general2').css('display', 'block')
+			
+			} else if (event.data.type == "closeAll2"){
+                $('.general2').css('display', 'none')
+			} 
+			if (event.data.type == "openGeneral3"){
+                $('.general3').css('display', 'block')
+				
+			} else if (event.data.type == "closeAll3"){
+                $('.general3').css('display', 'none')
+			} 
+			if (event.data.type == "openGeneral4"){
+                $('.general4').css('display', 'block')
+			
+			} else if (event.data.type == "closeAll4"){
+                $('.general4').css('display', 'none')
+			} 
+			if (event.data.type == "openGeneral5"){
+                $('.general5').css('display', 'block')
+			
+
+			} else if (event.data.type == "closeAll5"){
+                $('.general5').css('display', 'none')
+
+			} 	if (event.data.type == "openGeneral6"){
+                $('.general6').css('display', 'block')
+			
+
+			} else if (event.data.type == "closeAll6"){
+                $('.general6').css('display', 'none')
+
+			} 	if (event.data.type == "openGeneral7"){
+                $('.general7').css('display', 'block')
+			
+
+			} else if (event.data.type == "closeAll7"){
+                $('.general7').css('display', 'none')
+
+			} 	if (event.data.type == "openGeneral8"){
+
+                $('.general8').css('display', 'block')
+			
+
+			} else if (event.data.type == "closeAll8"){
+                $('.general8').css('display', 'none')
+
+			} 	if (event.data.type == "openGeneral9"){
+                $('.general9').css('display', 'block')
+			
+
+			} else if (event.data.type == "closeAll9"){
+                $('.general9').css('display', 'none')
+			} 
+		});
+	});
+	
+
+	</script>
+	

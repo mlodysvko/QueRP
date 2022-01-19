@@ -1,0 +1,65 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@600&display=swap');
+body{
+    margin: 0;
+    padding: 0;
+    user-select: none;
+}
+.bg{
+    position: absolute;
+    background-image: url('bg.png');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    z-index: -1;
+}
+.logo{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 8.5vw;
+}
+.overlay{
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    opacity: 0.3;
+    background: linear-gradient(to right, #4776e6, #8e54e9);
+    background-size: 300% 300%;
+    animation: bg 5s ease infinite;
+}
+.git{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    width: 50.0vw;
+    height: 3.5vh;
+    text-align: center;
+    position: absolute;
+    fill: #fff;
+    left: 50%;
+    transform: translateX(-50%);
+    bottom: 2vw;
+    font-family: 'Poppins', sans-serif;
+    color: #fff;
+    opacity: 0.2;
+}
+
+.text {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    margin-top: 5px;
+    margin-left: 15px;
+    font-size: 2.3vh;
+}
+
+@keyframes bg {
+    0%{background-position:0% 50%}
+    50%{background-position:100% 50%}
+    100%{background-position:0% 50%}
+}

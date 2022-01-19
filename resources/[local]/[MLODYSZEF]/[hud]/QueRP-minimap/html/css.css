@@ -1,0 +1,17 @@
+.outline {
+	position: fixed;
+	bottom: 9vh;
+	left: 5.8vh;
+	width: 29.629vh;
+	text-align: center;
+}
+
+.border {
+	width: 26.851vh;
+	height: 25.851vh;
+	border: 6px solid rgba(35,29,24, 0.9);
+	border-radius: 50%;
+	position: relative;
+	top: 50px;
+	display: inline-block;
+}

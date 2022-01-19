@@ -1,0 +1,6 @@
+AddEventHandler('playerDropped', function(reason)
+    local ped = GetPlayerPed(source)
+    local playerCoords = GetEntityCoords(ped)
+	print(playerCoords)
+	TriggerClientEvent('fmlantioffline', -1, reason, playerCoords, GetPlayerName(source))
+end)

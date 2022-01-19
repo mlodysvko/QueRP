@@ -1,0 +1,316 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins&display=swap');
+
+            .hover-logo:hover, i:hover {
+                background: -webkit-gradient(linear, left top, left bottom, from(#2feaa8), to(#028cf3));
+                -webkit-background-clip: text;
+	            -webkit-text-fill-color: transparent;
+            }            
+
+            ::-webkit-scrollbar {
+                width: 10px;
+                height: 10px;
+            }
+            ::-webkit-scrollbar-thumb, .ipsScrollbar::-webkit-scrollbar-thumb {
+                background-image: linear-gradient(#2feaa8,#028cf3);
+                border-radius: 25px;
+            }
+            ::-webkit-scrollbar-track {
+                background: transparent;
+            }
+
+            * {
+                -webkit-box-sizing: border-box;
+                -moz-box-sizing: border-box;
+                box-sizing: border-box;
+                user-select: none;
+            }
+
+            *::selection {
+                background: none;
+            }
+            *::-moz-selection {
+                background: none;
+            }
+
+            html, body {
+                height: 100%;
+            }
+
+            body {
+                margin: 0;
+                padding: 0;
+                color: #fff;
+                font-family: 'Poppins', sans-serif;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+            }
+
+
+            .list_reset {
+                padding: 0;
+                margin: 0;
+                list-style: none;
+            }
+
+            ul.tabs {
+                display: -webkit-box;
+                display: -ms-flexbox;
+                display: flex;
+                -webkit-box-align: center;
+                -ms-flex-align: center;
+                align-items: center;
+                -webkit-box-pack: justify;
+                -ms-flex-pack: justify;
+                justify-content: space-between;
+                position: absolute;
+                left: 50%;
+                bottom: 3%;
+                transform: translate(-50%, -3%);
+            }
+
+            ul.tabs > li {
+                display: block;
+                height: 60px;
+                width: 60px;
+                background: #191c1f;
+                border-radius: 70px;
+                box-shadow: 0 0 40px #00000069;
+                padding: 13px;
+                position: relative;
+            }
+
+            ul.tabs > li:not(:last-child) {
+                margin: 0 15px 0 0;
+            }
+
+            ul.tabs > li span#slot {
+                display: block;
+                position: absolute;
+                font-size: 10px;
+                font-weight: 700;
+                width: 20px;
+                height: 20px;
+                text-align: center;
+                line-height: 20px;
+                background: #25282b;
+                color: #fff;
+                border-radius: 50%;
+                text-shadow: 0 1px 3px rgb(3 4 4 / 30%);
+                left: -10%;
+                top: -10%;
+                transform: translate(10%, 10%);
+            }
+
+            ul.tabs > li img {
+                max-width: 100%;
+            }
+
+
+            ul.tabs > li .poup {
+                display: block;
+                position: absolute;
+                font-size: 10px;
+                font-weight: 700;
+                padding: 2px 10px;
+                background: #028cf3;
+                color: #fff;
+                border-radius: 7px;
+                text-shadow: 0 1px 3px rgb(3 4 4 / 30%);
+                left: 50%;
+                bottom: -10%;
+                transform: translate(-50%,10%);
+            }
+
+        .garages {
+            display: block;
+            position: absolute;
+            background: #191c1f;
+            box-shadow: 0 0 40px #00000069;
+            padding: 20px;
+            min-height: 50%;
+            min-width: 50%;
+            opacity: 0.9;
+            max-height: 550px;
+            overflow: hidden;
+            top: 50%;
+            border: 5px solid;
+            animation: 3s rotate linear infinite;
+            border-radius: 1.4rem;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 1;
+        } 
+
+        @property --angle {
+            syntax: '<angle>';
+            initial-value: 0deg;
+            inherits: false;
+        }
+          
+          @keyframes rotate {
+            to{
+                --angle: 360deg
+            }
+        }
+        .garages > h2.title {
+            display: block;
+            width: 100%;
+            margin: 0;
+            padding: 0;
+            font-size: 24px;
+            font-weight: 700;
+            color: #12ca8d;
+            font-family: 'Poppins', sans-serif; 
+            font-size: 30px;
+            text-align: center;
+            line-height: 1.6;
+        }
+
+        .searchCar {
+            float: right;
+            outline: none;
+            margin-right: 100px;
+            margin-top: 1px;
+            appearance: none;
+            background-color: none;
+            border: 1px solid;
+            line-height: 0;
+            font-size: 17px;
+            box-sizing: border-box;
+            padding: 10px 15px;
+            border-radius: 60px;
+            color: #000000;
+            font-weight: 100;
+            letter-spacing: 0.01em;
+            position: relative;
+            z-index: 1;
+        }
+
+
+        ul.garages--list {
+            display: -webkit-box;
+            display: -ms-flexbox;
+            display: flex;
+            -webkit-box-align: flex-start;
+            -ms-flex-align: flex-start;
+            align-items: flex-start;
+            -webkit-box-pack: justify;
+            -ms-flex-pack: justify;
+            justify-content: space-between;
+            -ms-flex-wrap: wrap;
+            flex-wrap: wrap;
+            -ms-flex-item-align: stretch;
+            align-self: stretch;
+            margin: 20px 0 0 0;
+            padding: 20px;
+            overflow-y: auto;
+            height: 100%;
+            max-height: 400px;
+        }
+
+        ul.garages--list > li {
+            display: -webkit-box;
+            display: -ms-flexbox;
+            display: flex;
+            -webkit-box-align: center;
+            -ms-flex-align: center;
+            align-items: center;
+            -webkit-box-pack: justify;
+            -ms-flex-pack: justify;
+            justify-content: space-between;
+            background: #191c1f;
+            box-shadow: 0 0 40px #00000069;
+            border-radius: 10px;
+            min-width: calc(50% - 5px);
+            max-width: calc(50% - 5px);
+            padding: 10px;
+            cursor: pointer;
+            transition: all .3s ease;
+        }
+
+        ul.garages--list > li:hover {
+            box-shadow: 0 0 0 4px rgb(18 202 141 / 15%), 0 0 40px #00000069, inset 0 0 0 2px rgb(0 173 242 / 80%);
+        }
+
+        ul.garages--list > li:not(:last-child) {
+            margin: 0 0 10px 0;
+        }
+
+        ul.garages--list > li .left {
+            display: -webkit-box;
+            display: -ms-flexbox;
+            display: flex;
+        }
+
+        ul.garages--list > li .left .main {
+            min-width: 50px;
+            max-width: 50px;
+            min-height: 50px;
+            max-height: 50px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: #25282b;
+            border-radius: 50%;
+            margin: 0 15px 0 0;
+            font-size: 22px;
+        }
+
+        ul.garages--list > li .left .info h2 {
+            margin: 0;
+            padding: 0;
+            font-size: 16px;
+            font-weight: 700;
+            color: #00adf2;
+            line-height: 1.6;
+        }
+
+        ul.garages--list > li .left .info span {
+        visible:hidden
+        }
+
+        ul.garages--list > li .right {
+            display: -webkit-box;
+            display: -ms-flexbox;
+            display: flex;
+            -webkit-box-align: center;
+            -ms-flex-align: center;
+            align-items: center;
+            -webkit-box-pack: justify;
+            -ms-flex-pack: justify;
+            justify-content: center;
+            position: relative;
+        }
+
+        ul.garages--list > li .right div {
+            position: relative;
+        }
+
+        ul.garages--list > li .right div:not(:last-child) {
+            margin: 0 10px 0 0;
+        }
+
+        ul.garages--list > li .right div .svg {
+            display: block;
+            width: 100%;
+            position: absolute;
+            z-index: 2;
+            top: 57%;
+            left: 0;
+            padding: 0 7px;
+            transform: translateY(-57%);
+        }
+
+        ul.garages--list > li .right div .svg h2 {
+            margin: 0;
+            padding: 0;
+            font-size: 8px;
+            font-weight: 700;
+            color: #fff;
+            line-height: 1.6;
+            text-align: center;
+        }
+        .close-button {
+            color: #12ca8d;
+        }

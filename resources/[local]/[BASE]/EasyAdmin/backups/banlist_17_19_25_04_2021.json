@@ -1,0 +1,94 @@
+[
+    {
+        "identifiers": [
+            "steam:11000014130bb04",
+            "license:aaa93a9c014c3d62a837ec12540d0b1ec31d9179",
+            "discord:365883740255158272",
+            "license2:aaa93a9c014c3d62a837ec12540d0b1ec31d9179",
+            "ip:83.4.175.228"
+        ],
+        "expire": 10444633200,
+        "banid": 7,
+        "reason": "cheaty ( Gracz: Maksiu ), Zablokowany przez: Kubixanty",
+        "banner": "Kubixanty",
+        "name": "Maksiu"
+    },
+    {
+        "identifiers": [
+            "steam:1100001453dd514",
+            "license:5e7c1252952f940624c1e37542d9eef5095aa957",
+            "xbl:2535456755332443",
+            "live:1055519173466468",
+            "discord:724638308969218068",
+            "fivem:1587426",
+            "license2:5e7c1252952f940624c1e37542d9eef5095aa957",
+            "ip:31.135.192.36"
+        ],
+        "expire": 10444633200,
+        "banid": 11,
+        "reason": "cl,vdm ( Gracz: NIKO ), Zablokowany przez: 2 palce w natalce",
+        "banner": "2 palce w natalce",
+        "name": "NIKO"
+    },
+    {
+        "identifiers": [
+            "steam:11000014712395c",
+            "license:90efdec8d52de001df2625398f98636a28d64b19",
+            "discord:739907964328214609",
+            "license2:90efdec8d52de001df2625398f98636a28d64b19",
+            "ip:195.191.162.252"
+        ],
+        "expire": 10444633200,
+        "banid": 12,
+        "reason": "cl ( Gracz: ˢᶻᵉᶠparapet.exe ), Zablokowany przez: 2 palce w natalce",
+        "banner": "2 palce w natalce",
+        "name": "ˢᶻᵉᶠparapet.exe"
+    },
+    {
+        "identifiers": [
+            "steam:11000013ebab345",
+            "license:47277a273a3b0548d40b2fe4beaefd09397e86bd",
+            "xbl:2535461447858475",
+            "live:985154502244595",
+            "discord:693159710840586270",
+            "license2:47277a273a3b0548d40b2fe4beaefd09397e86bd",
+            "ip:89.64.34.26"
+        ],
+        "expire": 10444633200,
+        "banid": 13,
+        "reason": "\"banroom\" ( Gracz: starszym ), Zablokowany przez: ^6Koro",
+        "banner": "^6Koro",
+        "name": "starszym"
+    },
+    {
+        "identifiers": [
+            "steam:110000140685032",
+            "license:78637b51fb10001f0087ac8dc3a8763d2c51748a",
+            "xbl:2535424693124426",
+            "live:844425645240358",
+            "discord:726036534846816338",
+            "license2:78637b51fb10001f0087ac8dc3a8763d2c51748a",
+            "ip:83.25.235.105"
+        ],
+        "expire": 1619376215,
+        "banid": 14,
+        "reason": "VDM ( Gracz: lexon ), Zablokowany przez: 2 palce w natalce",
+        "banner": "2 palce w natalce",
+        "name": "lexon"
+    },
+    {
+        "identifiers": [
+            "steam:11000013ff49aef",
+            "license:40cfb455682d44c7b1c52c323c57628042cc20d7",
+            "xbl:2535433910943117",
+            "live:1055518525298705",
+            "discord:688317390122909706",
+            "ip:91.232.164.249"
+        ],
+        "expire": 10444633200,
+        "banid": 15,
+        "reason": "cl ( Gracz: Młody ), Zablokowany przez: 2 palce w natalce",
+        "banner": "2 palce w natalce",
+        "name": "Młody"
+    }
+]

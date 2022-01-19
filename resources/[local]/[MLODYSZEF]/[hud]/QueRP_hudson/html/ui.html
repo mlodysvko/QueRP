@@ -1,0 +1,255 @@
+<html>
+
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+		<meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
+		<title>fc_hud</title>
+		<link rel="stylesheet" href="fontawesome/css/all.css">
+		<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+		<link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous"/>
+		<link rel="stylesheet" href="style.css">
+		<link rel="stylesheet" href="carhud.css">
+		<script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
+	</head>
+
+	<body>
+		<div id="help" style="opacity:1">
+			<div id="text"></div>
+		</div>
+		<div class="cinema">
+			<div class="cinema-top"></div>
+			<div class="cinema-bottom"></div>
+		</div>
+		<div class="containerx">
+			<div class="settings">
+				<span class="material-icons close" onclick="exit()">close</span>
+				<p class="header">USTAWIENIA WIZUALNE</p>
+				<section class="option">
+					<p class="option-title">POWIADOMIENIA</p>
+					<div class="options">
+						<div class="option-opt">
+							<input onclick="notifications('default')" type="checkbox" checked="checked" name="custom1" id="custom1" class="cc"> <label for="custom1"> Powiadomienia ogólne</label>
+							<input onclick="notifications('twitter')" type="checkbox" checked="checked" name="custom2" id="custom2" class="cc"> <label for="custom2"> Powiadomienia twitter</label>
+							<input onclick="notifications('lspdn')" type="checkbox" checked="checked" name="custom3" id="custom3" class="cc"> <label for="custom3"> Powiadomienia LSPD</label>
+						</div>
+					</div>
+				</section>
+				<section class="option">
+					<p class="option-title">HUD</p>
+					<div class="options">
+						<div class="option-opt">
+							<input onclick="hide()" type="checkbox" checked="checked" name="custom4" id="custom4" class="cc"> <label for="custom4"> WYŚWIETLANIE</label>
+							<input onclick="crosshairfc()" type="checkbox" name="custom9" id="custom9" class="cc"> <label for="custom9"> kropka.lych (pepega)</label>
+						</div>
+					</div>
+				</section>
+				<section class="option">
+					<p class="option-title">CARHUD</p>
+					<div class="options">
+						<div class="option-opt">
+							<input onclick="carhud('classic')" type="checkbox" checked="checked" name="custom6" id="custom6" class="cc"> <label for="custom6"> WARIANT KLASYCZNY</label>
+							<input onclick="carhud('minimalist')" type="checkbox" name="custom7" id="custom7" class="cc"> <label for="custom7"> WARIANT MINIMALISTYCZNY</label>
+							<input onclick="carhudCompass()" type="checkbox" checked="checked" name="custom8" id="custom8" class="cc"> <label for="custom8"> WYŚWIETLANIE KOMPASU</label>
+						</div>
+					</div>
+				</section>
+				<section class="option">
+					<p class="option-title">DODATKI</p>
+					<div class="options">
+						<div class="option-opt">
+							<input onclick="cinema()" type="checkbox" name="custom5" id="custom5" class="cc"> <label for="custom5"> TRYB KINOWY</label>
+							<input type="number" min="10" max="30" maxlength="2" oninput="maxLengthCheck(this); changebars(this)" name="custom6" id="custom6"><label class="shit" for="custom6"> TRYB KINOWY (PROCENT WYSOKOŚCI)</label>
+						</div>
+					</div>
+				</section>
+			</div>
+		</div>
+		<notification-box>
+		</notification-box>
+		<div class="radio">
+			<div class="radionumber"></div>
+			<div class="radiopeople"></div>
+		</div>
+		<div class="hud-collapse">
+			<span class="material-icons">chevron_left</span>
+		</div>
+		<div class="hud">
+			<ul>
+				<li id="hp">
+					<svg height="30" viewBox="0 0 512.039 512.039" width="30" xmlns="http://www.w3.org/2000/svg">
+						<defs>
+							<linearGradient id="grad1" x1="0%" y1="100%" x2="0%" y2="0%">
+								<stop offset="0%" style="stop-color:#2feaa8;stop-opacity:1" />
+								<stop offset="100%" style="stop-color:#00f7ff;stop-opacity:1"/>
+							</linearGradient>
+						</defs>
+						<path fill="url(#grad1)"
+							d="M338.667 279.144l-41.936-77.881-59.301 125.19c-5.045 10.651-19.884 11.576-26.211 1.632l-42.97-67.523-11.513 19.188a15 15 0 0 1-12.862 7.282H48.746c2.982 3.121-12.911-12.74 196.548 195.634 5.85 5.821 15.307 5.822 21.158 0C472.688 277.498 460.024 290.147 463 287.032H351.874a14.996 14.996 0 0 1-13.207-7.888z M255.874 67.497C144.265-30.121 2.356 55.649.029 171.924c-.593 29.633 7.961 58.498 24.988 85.109h110.364l19.63-32.718c5.7-9.499 19.494-9.805 25.517-.335l41.417 65.083 60.373-127.451c5.265-11.121 20.956-11.474 26.763-.69l51.752 96.111h125.898c93.262-145.76-91.055-311.811-230.857-189.536z" />
+					</svg>
+				</li>
+				<li id="armor">
+					<svg height="30" viewBox="0 0 512.063 512.063" width="30" xmlns="http://www.w3.org/2000/svg">
+						<defs>
+							<linearGradient id="grad2" x1="0%" y1="100%" x2="0%" y2="0%">
+								<stop offset="0%" style="stop-color:#2feaa8;stop-opacity:1" />
+								<stop offset="100%" style="stop-color:#00f7ff;stop-opacity:1"/>
+							</linearGradient>
+						</defs>
+						<path fill="url(#grad2)"
+							d="M285.971 236.113h48.26v29.87h-48.26c-8.29 0-15 6.72-15 15v48.27h-29.87v-48.27c0-8.28-6.71-15-15-15h-48.27v-29.87h48.27c8.29 0 15-6.71 15-15v-48.27h29.87v48.27c0 8.289 6.71 15 15 15z M473.011 138.883l-.01-.49c-.24-12.76-.47-24.82-.47-36.42 0-17.58-14.3-31.87-31.87-31.87-68 0-119.61-19.39-162.42-61.02-12.46-12.11-31.98-12.11-44.44 0-42.8 41.63-94.41 61.02-162.4 61.02-17.57 0-31.87 14.29-31.87 31.87 0 11.84-.23 24.02-.48 36.92-1.15 60.2-2.58 135.12 22.56 203.13 13.83 37.4 34.76 69.89 62.22 96.59 31.28 30.41 72.24 54.53 121.75 71.69 3.37 1.17 6.88 1.76 10.44 1.76s7.08-.59 10.44-1.76c49.51-17.16 90.48-41.28 121.76-71.69 27.46-26.7 48.39-59.2 62.22-96.59 25.15-68.02 23.72-142.94 22.57-203.14zm-108.78 142.099c0 8.28-6.71 15-15 15h-48.26v48.27c0 8.28-6.72 15-15 15h-59.87c-8.28 0-15-6.72-15-15v-48.27h-48.27c-8.29 0-15-6.72-15-15v-59.87c0-8.28 6.71-15 15-15h48.27v-48.27c0-8.28 6.72-15 15-15h59.87c8.28 0 15 6.72 15 15v48.27h48.26c8.29 0 15 6.72 15 15z" />
+					</svg>
+				</li>
+				<li id="hunger">
+					<svg height="30" width="30" version="1.1" xmlns="http://www.w3.org/2000/svg" x="0" y="0"
+						viewBox="0 0 512.002 512.002" xml:space="preserve">
+						<defs>
+							<linearGradient id="grad3" x1="0%" y1="100%" x2="0%" y2="0%">
+								<stop offset="0%" style="stop-color:#2feaa8;stop-opacity:1" />
+								<stop offset="100%" style="stop-color:#00f7ff;stop-opacity:1"/>
+							</linearGradient>
+						</defs>
+						<path fill="url(#grad3)"
+							d="M376.622 154.081h-.001c-28.393-4.583-56.763 2.621-79.874 20.28-23.989 18.331-57.502 18.331-81.493 0-18.567-14.188-40.528-21.627-63.171-21.627-5.54 0-11.121.445-16.703 1.346-58.164 9.383-98.03 65.865-88.867 125.908C63.181 389.21 94.771 463.541 137.87 494.947c20.154 14.684 42.426 19.806 68.095 15.668 15.731-2.538 28.157-8.946 37.991-19.592a16.395 16.395 0 0 1 24.088 0c9.833 10.646 22.26 17.054 37.991 19.592 25.669 4.144 47.943-.983 68.095-15.668 43.1-31.406 74.689-105.737 91.357-214.959 9.163-60.042-30.702-116.524-88.865-125.907z M377.045 49.397c-3.265-8.445-12.756-12.648-21.207-9.381-2.584.999-43.204 17.15-75.284 54.855-1.202-5.935-2.881-11.91-5.154-17.832-19.089-49.727-71.527-74.49-73.75-75.521a16.397 16.397 0 0 0-21.97 8.434c-.963 2.254-23.362 55.745-4.274 105.472 1.724 4.489 3.738 8.755 5.943 12.838 19.234 4.258 37.528 12.739 53.817 25.185 12.266 9.375 29.404 9.375 41.672 0a142.685 142.685 0 0 1 8.838-6.237c8.529-18.735 21.859-35.685 39.906-50.623 21.507-17.803 41.916-25.918 42.082-25.983 8.446-3.266 12.647-12.76 9.381-21.207z" />
+					</svg>
+				</li>
+				<li id="thirst">
+					<svg height="30" width="30" version="1.1" xmlns="http://www.w3.org/2000/svg" x="0" y="0"
+						viewBox="0 0 512 512" xml:space="preserve">
+						<defs>
+							<linearGradient id="grad4" x1="0%" y1="100%" x2="0%" y2="0%">
+								<stop offset="0%" style="stop-color:#2feaa8;stop-opacity:1" />
+								<stop offset="100%" style="stop-color:#00f7ff;stop-opacity:1"/>
+							</linearGradient>
+						</defs>
+						<path fill="url(#grad4)"
+							d="M368 248c0-17.856-9.888-33.28-24.352-41.536C357.472 202.944 368 190.912 368 176a29.59 29.59 0 0 0-3.488-13.984c-8.096-28.128-26.304-51.552-50.528-66.016H198.016c-24.256 14.464-42.432 37.888-50.56 66.016A30.145 30.145 0 0 0 144 176c0 14.88 10.528 26.912 24.352 30.432C153.888 214.72 144 230.144 144 248c0 17.888 9.888 33.28 24.384 41.568C154.496 293.056 144 305.056 144 320v160c0 17.664 14.336 32 32 32h160c17.664 0 32-14.336 32-32V320c0-14.976-10.496-26.976-24.384-30.464C358.112 281.28 368 265.888 368 248zM304 0h-96c-8.832 0-16 7.168-16 16v32c0 8.832 7.168 16 16 16h96c8.832 0 16-7.168 16-16V16c0-8.832-7.168-16-16-16z" />
+					</svg>
+				</li>
+				<li id="oxygen">
+					<svg height="30" width="30" version="1.1" xmlns="http://www.w3.org/2000/svg" x="0" y="0"
+						height="485.02" viewBox="0 0 485.021 485.02" xml:space="preserve">
+						<defs>
+							<linearGradient id="grad5" x1="0%" y1="100%" x2="0%" y2="0%">
+								<stop offset="0%" style="stop-color:#2feaa8;stop-opacity:1" />
+								<stop offset="100%" style="stop-color:#00f7ff;stop-opacity:1"/>
+							</linearGradient>
+						</defs>
+						<path fill="url(#grad5)"
+							d="M448.953 278.214c-32.771-59.499-100.506-128.657-138.716-128.657-2.397 0-4.692.27-6.815.811-13.386 3.403-21.562 12.407-26.324 22.701 0 0-11.133-5.795-11.133-12.849V18.469a4.41 4.41 0 0 0-4.41-4.41H223.463a4.41 4.41 0 0 0-4.409 4.41V160.22c0 7.446-11.134 12.849-11.134 12.849-4.765-10.294-12.938-19.298-26.321-22.701-2.123-.541-4.419-.811-6.82-.811-38.208 0-105.939 69.158-138.714 128.657-28.63 51.973-40.304 103.495-34.7 153.131 2.466 21.845 28.022 39.616 56.97 39.616 14.983 0 43.402-4.881 67.454-37.109 5.53.56 10.857.842 15.876.842h.007c23.904 0 42.224-6.365 54.449-18.925 18.564-19.066 17.507-50.058 17.507-58.579 0-8.522.055-118.062.055-125.583s22.415-31.771 28.828-31.771 28.849 22.962 28.826 31.771c-.023 8.809.055 116.593.055 125.583 0 8.989-1.06 39.513 17.506 58.579 12.229 12.56 30.547 18.925 54.451 18.925h.008c5.019 0 10.347-.282 15.877-.842 24.052 32.229 52.468 37.109 67.453 37.109 28.945 0 54.502-17.771 56.972-39.616 5.599-49.636-6.077-101.158-34.706-153.131z" />
+					</svg>
+				</li>
+				<!-- <li id="stress">
+					<svg height="30" width="30" height="512" viewBox="0 0 512 512"
+						xmlns="http://www.w3.org/2000/svg">
+						<defs>
+							<linearGradient id="grad6" x1="0%" y1="100%" x2="0%" y2="0%">
+								<stop offset="100%" style="stop-color:#2feaa8;stop-opacity:1" />
+								<stop offset="100%" style="stop-color:rgb(255, 255, 255);stop-opacity:1" />
+							</linearGradient>
+						</defs>
+						<path fill="url(#grad6)"
+							d="M271.003 15c0-8.284-6.716-15-15.001-15s-15.001 6.716-15.001 15v31.777c0 8.284 6.716 15 15.001 15s15.001-6.716 15.001-15zM368.875 67.841l22.471-22.47c5.859-5.858 5.859-15.355 0-21.213-5.858-5.858-15.357-5.858-21.214 0l-22.471 22.47c-5.859 5.858-5.859 15.355 0 21.213 5.857 5.857 15.356 5.858 21.214 0zM143.13 67.841c5.857 5.858 15.356 5.859 21.214 0 5.859-5.858 5.859-15.355 0-21.213l-22.471-22.47c-5.858-5.858-15.357-5.858-21.215 0-5.859 5.858-5.859 15.355 0 21.213zM501.554 97.048l-20.382-6.471 24.471-18.541c6.603-5.003 7.9-14.412 2.896-21.014-5.002-6.602-14.41-7.901-21.016-2.896l-47.552 36.03c-9.69 7.342-7.042 22.581 4.521 26.252l20.38 6.47-24.459 18.53c-6.603 5.003-7.901 14.411-2.898 21.014 5.004 6.605 14.413 7.899 21.016 2.897.873-.661 46.792-35.445 47.654-36.112 9.518-7.343 6.917-22.447-4.631-26.159zM74.491 156.423c5.003-6.603 3.705-16.012-2.898-21.014l-24.459-18.53 20.38-6.47a15 15 0 0 0 4.521-26.252l-47.552-36.03c-6.604-5.003-16.015-3.706-21.016 2.896-5.004 6.602-3.707 16.011 2.896 21.014l24.471 18.541c-.32.102-20.3 6.443-20.619 6.549-10.739 3.597-13.81 17.567-5.341 25.285.34.31.856.736 1.058.889l47.544 36.019c6.607 5.006 16.014 3.702 21.015-2.897zM154.675 136.559c32.112 1.88 51.814 7.55 53.414 8.02 7.941 2.35 12.471 10.7 10.121 18.64-2.35 7.93-10.681 12.46-18.611 10.13-.52-.15-33.493-9.46-84.236-6.78-17.272 20.272-22.984 47.739-15.421 72.899-31.39 31.781-35.73 80.175-13.591 116.399 4.89-6.66 9.971-12.39 14.891-17.27 18.111-17.96 36.913-27.44 45.663-31.22-1.92-16.24 1.07-29.04 1.32-30.05 1.97-8.05 10.081-12.98 18.131-11.02 8.021 1.96 12.951 10.03 11.041 18.06-.32 1.37-6.781 30.73 14.001 48.28 6.33 5.34 7.141 14.8 1.79 21.13-5.359 6.351-14.818 7.126-21.142 1.79-7.051-5.95-12.241-12.57-16.051-19.38-7.501 3.56-21.322 11.24-34.503 24.59-11.641 11.78-20.352 25.33-26.092 40.54 7.251 33.4 34.993 59.229 69.345 63.639 11.066 30.877 42.274 50.794 76.256 46.45V274.178c-14.111-28.97-40.333-36.86-40.593-36.93-7.991-2.19-12.701-10.43-10.521-18.43 2.18-7.99 10.431-12.69 18.421-10.51 1.04.28 16.411 4.65 32.692 18.2V83.399a70.942 70.942 0 0 0-16.931-2.04c-33.762 0-62.114 23.62-69.394 55.2zM434.386 275.528c-43.653-40.14-90.227-40.88-90.827-40.89-8.281-.02-14.971-6.76-14.951-15.05.03-8.26 6.741-14.95 15.001-14.95h.05c16.881.167 44.912 6.475 71.265 20.53 3.941-38.817-20.699-73.209-56.544-83.059-5.07-34.32-34.733-60.749-70.445-60.749-5.76 0-11.431.69-16.931 2.04v221.558c10.211-7.63 23.142-13.45 38.763-13.28 8.291.09 14.931 6.88 14.841 15.16-.09 8.23-6.78 14.84-14.991 14.84h-.47c-19.892 0-33.773 20.61-38.143 28.09v161.639c34.047 4.353 65.208-15.623 76.256-46.45 45.999-5.907 78.974-49.774 69.625-96.969 22.717-26.707 27.845-62.233 17.501-92.46zm-73.366 80.309c-7.221 38.02-45.713 49.25-47.354 49.71 0 0-12.931 3.65-18.251-9.62-3.63-15.4 10.031-19.23 10.031-19.23l.09-.03h.01c1.82-.56 22.372-7.3 26.002-26.43 1.55-8.14 9.401-13.48 17.541-11.94 8.141 1.55 13.481 9.4 11.931 17.54z" />
+					</svg>
+				</li> -->
+				<li id="sound">
+					<svg height="30" width="30" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"
+						xmlns:v="https://vecta.io/nano">
+						<defs>
+							<linearGradient id="grad7" x1="0%" y1="100%" x2="0%" y2="0%">
+								<stop offset="0%" style="stop-color:#2feaa8;stop-opacity:1" />
+								<stop offset="100%" style="stop-color:#00f7ff;stop-opacity:1"/>
+							</linearGradient>
+						</defs>
+						<path fill="url(#grad7)"
+							d="M237.541 328.897c25.128 0 46.632-8.946 64.523-26.83s26.833-39.399 26.833-64.525V91.365c0-25.126-8.938-46.632-26.833-64.525S262.669 0 237.541 0s-46.632 8.951-64.524 26.84-26.838 39.399-26.838 64.525v146.177c0 25.125 8.949 46.641 26.838 64.525s39.399 26.83 64.524 26.83zM396.563 188.15c-3.606-3.617-7.898-5.426-12.847-5.426s-9.226 1.809-12.847 5.426c-3.613 3.616-5.421 7.898-5.421 12.845v36.547c0 35.214-12.518 65.333-37.548 90.362-25.022 25.03-55.145 37.545-90.36 37.545s-65.334-12.515-90.365-37.545c-25.028-25.022-37.541-55.147-37.541-90.362v-36.547c0-4.947-1.809-9.229-5.424-12.845s-7.895-5.426-12.847-5.426-9.235 1.809-12.85 5.426-5.426 7.898-5.426 12.845v36.547c0 42.065 14.04 78.659 42.112 109.776s62.762 48.961 104.068 53.526v37.691h-73.089c-4.949 0-9.231 1.811-12.847 5.428s-5.426 7.898-5.426 12.847c0 4.941 1.809 9.233 5.426 12.847s7.898 5.428 12.847 5.428h182.719c4.948 0 9.236-1.813 12.847-5.428 3.621-3.613 5.431-7.905 5.431-12.847 0-4.948-1.81-9.232-5.431-12.847-3.61-3.617-7.898-5.428-12.847-5.428h-73.08v-37.691c41.299-4.565 75.985-22.408 104.061-53.526s42.12-67.711 42.12-109.776v-36.547c0-4.946-1.813-9.225-5.435-12.845z" />
+					</svg>
+				</li>
+			</ul>
+		</div>
+		<div class="mapborder"></div>
+		<div class="streetlabel">
+			<p class="street" id="street">Los Santos Freeway</p>
+			<p class="direction">N</p>
+		</div>
+		<div class="speedometer">
+			<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 36 36" class="speedometer-part black">
+                <path class="circle" stroke-dasharray="82, 100" d="M18 2.0845
+                        a 15.9155 15.9155 0 0 1 0 31.831
+                        a 15.9155 15.9155 0 0 1 0 -31.831" />
+            </svg>
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 36 36" class="speedometer-part">
+                <path class="circle speed" stroke-dasharray="82, 100" d="M18 2.0845
+                        a 15.9155 15.9155 0 0 1 0 31.831
+                        a 15.9155 15.9155 0 0 1 0 -31.831" />
+            </svg>
+			<svg xmlns="http://www.w3.org/2000/svg"  viewBox="0 0 36 36" class="speedometer-part tacho">
+				<defs>
+					<linearGradient id="tachograd" x1="0%" y1="0%" x2="0%" y2="100%">
+						<stop offset="0%" style="stop-color:#2feaa8;stop-opacity:1" />
+						<stop offset="100%" style="stop-color:#00f7ff;stop-opacity:1"/>
+					</linearGradient>
+				</defs>
+				<path class="circle" stroke-dasharray="82, 100" d="M18 2.0845
+						a 15.9155 15.9155 0 0 1 0 31.831
+						a 15.9155 15.9155 0 0 1 0 -31.831" />
+			</svg>
+			<div class="speedometer-digital">
+				<p class="speed-digital">000</p>
+				<p class="speed-unit">KMH</p>
+			</div>
+			<div class="icons">
+				<svg class="seatbelt" xmlns="http://www.w3.org/2000/svg" enable-background="new 0 0 512 512" height="24px"
+					viewBox="0 0 512 512" width="24px" fill="url(#sgrad2)" >
+					<defs>
+						<linearGradient id="sgrad2" x1="0%" y1="100%" x2="0%" y2="0%">
+							<stop offset="0%" style="stop-color:#2feaa8;stop-opacity:1" />
+							<stop offset="100%" style="stop-color:#00f7ff;stop-opacity:1"/>
+						</linearGradient>
+					</defs>
+					<polygon points="171.363,224.841 89.544,306.659 102.803,319.918 0,422.721 89.279,512 192.082,409.197 205.341,422.456     287.159,340.637   "/>
+					<path d="M512,89.279L422.721,0L319.918,102.803L306.66,89.544l-81.818,81.818l17.677,17.677l-29.414,29.414l80.441,80.441    l29.414-29.414l17.677,17.677l81.818-81.818l-13.258-13.257L512,89.279z M293.546,252.915l-34.461-34.461l6.424-6.424    l34.461,34.461L293.546,252.915z"/>
+				</svg>
+				<!-- <svg class="fuel" xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 0 24 24" width="24px">
+					<defs>
+						<linearGradient id="sgrad1" x1="0%" y1="100%" x2="0%" y2="0%">
+							<stop offset="0%" style="stop-color:#2feaa8;stop-opacity:1" />
+							<stop offset="100%" style="stop-color:#00f7ff;stop-opacity:1"/>
+						</linearGradient>
+					</defs>
+					<path fill="url(#sgrad1)"
+						d="M19.77 7.23l.01-.01-3.72-3.72L15 4.56l2.11 2.11c-.94.36-1.61 1.26-1.61 2.33 0 1.38 1.12 2.5 2.5 2.5.36 0 .69-.08 1-.21v7.21c0 .55-.45 1-1 1s-1-.45-1-1V14c0-1.1-.9-2-2-2h-1V5c0-1.1-.9-2-2-2H6c-1.1 0-2 .9-2 2v16h10v-7.5h1.5v5c0 1.38 1.12 2.5 2.5 2.5s2.5-1.12 2.5-2.5V9c0-.69-.28-1.32-.73-1.77zM12 10H6V5h6v5zm6 0c-.55 0-1-.45-1-1s.45-1 1-1 1 .45 1 1-.45 1-1 1z" />
+				</svg> -->
+				<svg class="lights" xmlns="http://www.w3.org/2000/svg" enable-background="new 0 0 24 24" height="24px"
+					viewBox="0 0 24 24" width="24px" fill="#ffffff">
+					<rect fill="none" height="24" width="24" />
+					<path
+						d="M12,7c-2.76,0-5,2.24-5,5s2.24,5,5,5s5-2.24,5-5S14.76,7,12,7L12,7z M2,13l2,0c0.55,0,1-0.45,1-1s-0.45-1-1-1l-2,0 c-0.55,0-1,0.45-1,1S1.45,13,2,13z M20,13l2,0c0.55,0,1-0.45,1-1s-0.45-1-1-1l-2,0c-0.55,0-1,0.45-1,1S19.45,13,20,13z M11,2v2 c0,0.55,0.45,1,1,1s1-0.45,1-1V2c0-0.55-0.45-1-1-1S11,1.45,11,2z M11,20v2c0,0.55,0.45,1,1,1s1-0.45,1-1v-2c0-0.55-0.45-1-1-1 C11.45,19,11,19.45,11,20z M5.99,4.58c-0.39-0.39-1.03-0.39-1.41,0c-0.39,0.39-0.39,1.03,0,1.41l1.06,1.06 c0.39,0.39,1.03,0.39,1.41,0s0.39-1.03,0-1.41L5.99,4.58z M18.36,16.95c-0.39-0.39-1.03-0.39-1.41,0c-0.39,0.39-0.39,1.03,0,1.41 l1.06,1.06c0.39,0.39,1.03,0.39,1.41,0c0.39-0.39,0.39-1.03,0-1.41L18.36,16.95z M19.42,5.99c0.39-0.39,0.39-1.03,0-1.41 c-0.39-0.39-1.03-0.39-1.41,0l-1.06,1.06c-0.39,0.39-0.39,1.03,0,1.41s1.03,0.39,1.41,0L19.42,5.99z M7.05,18.36 c0.39-0.39,0.39-1.03,0-1.41c-0.39-0.39-1.03-0.39-1.41,0l-1.06,1.06c-0.39,0.39-0.39,1.03,0,1.41s1.03,0.39,1.41,0L7.05,18.36z" />
+				</svg>
+			</div>
+		</div>
+		<div class="speedometer-minimalistic">
+			<div class="icons">
+				<svg class="fuel" xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 0 24 24" width="24px">
+					<defs>
+						<linearGradient id="sxgrad1" x1="0%" y1="100%" x2="0%" y2="0%">
+							<stop offset="0%" style="stop-color:#2feaa8;stop-opacity:1" />
+							<stop offset="100%" style="stop-color:#00f7ff;stop-opacity:1"/>
+						</linearGradient>
+					</defs>
+					<path fill="url(#sxgrad1)"
+						d="M19.77 7.23l.01-.01-3.72-3.72L15 4.56l2.11 2.11c-.94.36-1.61 1.26-1.61 2.33 0 1.38 1.12 2.5 2.5 2.5.36 0 .69-.08 1-.21v7.21c0 .55-.45 1-1 1s-1-.45-1-1V14c0-1.1-.9-2-2-2h-1V5c0-1.1-.9-2-2-2H6c-1.1 0-2 .9-2 2v16h10v-7.5h1.5v5c0 1.38 1.12 2.5 2.5 2.5s2.5-1.12 2.5-2.5V9c0-.69-.28-1.32-.73-1.77zM12 10H6V5h6v5zm6 0c-.55 0-1-.45-1-1s.45-1 1-1 1 .45 1 1-.45 1-1 1z" />
+					</svg>
+					<svg class="lights" xmlns="http://www.w3.org/2000/svg" enable-background="new 0 0 24 24" height="24px"
+					viewBox="0 0 24 24" width="24px" fill="#ffffff">
+					<rect fill="none" height="24" width="24" />
+					<path d="M12,7c-2.76,0-5,2.24-5,5s2.24,5,5,5s5-2.24,5-5S14.76,7,12,7L12,7z M2,13l2,0c0.55,0,1-0.45,1-1s-0.45-1-1-1l-2,0 c-0.55,0-1,0.45-1,1S1.45,13,2,13z M20,13l2,0c0.55,0,1-0.45,1-1s-0.45-1-1-1l-2,0c-0.55,0-1,0.45-1,1S19.45,13,20,13z M11,2v2 c0,0.55,0.45,1,1,1s1-0.45,1-1V2c0-0.55-0.45-1-1-1S11,1.45,11,2z M11,20v2c0,0.55,0.45,1,1,1s1-0.45,1-1v-2c0-0.55-0.45-1-1-1 C11.45,19,11,19.45,11,20z M5.99,4.58c-0.39-0.39-1.03-0.39-1.41,0c-0.39,0.39-0.39,1.03,0,1.41l1.06,1.06 c0.39,0.39,1.03,0.39,1.41,0s0.39-1.03,0-1.41L5.99,4.58z M18.36,16.95c-0.39-0.39-1.03-0.39-1.41,0c-0.39,0.39-0.39,1.03,0,1.41 l1.06,1.06c0.39,0.39,1.03,0.39,1.41,0c0.39-0.39,0.39-1.03,0-1.41L18.36,16.95z M19.42,5.99c0.39-0.39,0.39-1.03,0-1.41 c-0.39-0.39-1.03-0.39-1.41,0l-1.06,1.06c-0.39,0.39-0.39,1.03,0,1.41s1.03,0.39,1.41,0L19.42,5.99z M7.05,18.36 c0.39-0.39,0.39-1.03,0-1.41c-0.39-0.39-1.03-0.39-1.41,0l-1.06,1.06c-0.39,0.39-0.39,1.03,0,1.41s1.03,0.39,1.41,0L7.05,18.36z" />
+				</svg>
+			</div>
+			<div class="speedometer-minimalistic-digital">
+				<div class="speedometer-minimalistic-part minimalistic-speed">000 KMH</div>
+			</div>
+		</div>
+	</body>
+	<script src="script.js"></script>
+	<script src="carhud.js"></script>
+</html>

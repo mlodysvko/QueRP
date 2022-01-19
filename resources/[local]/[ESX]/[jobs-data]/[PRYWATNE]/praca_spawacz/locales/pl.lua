@@ -1,0 +1,15 @@
+Locales['pl'] = {
+	['GPS_info'] = 'Płyń do punktu, trasa została wyznaczona na ~b~GPS\'ie',
+	['cancel_mission'] = '~r~Trasa została usunięta z GPS\'u',
+	['pickup'] = "Wciśnij ~INPUT_CONTEXT~ aby zacząć spawać",
+	['end_service'] = 'Ubranie cywilne',
+	['take_service'] = 'Ubranie robocze',
+	['end_service_notif'] = '~r~Kończysz prace',
+	['take_service_notif'] = '~g~Rozpoczynasz prace',
+	['start_job'] = 'Weź łódź służbową i wciśnij ~b~DEL ~w~aby zaznaczyć trasę na ~b~GPS\'ie',
+	['Vehicle_Menu_Title'] = 'Łodzie',
+	['in_vehicle'] = '~r~Wyjdź z pojazdu!',
+	['vehicle_broken'] = '~r~Auto jest zbyt zniszczone !',
+	['not_good_veh'] = '~r~Musisz być w łodzi służbowej aby rozpocząć prace',
+	['stop_npc'] = '~r~Wracaj do bazy!',
+}

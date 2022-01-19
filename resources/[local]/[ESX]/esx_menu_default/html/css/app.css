@@ -1,0 +1,159 @@
+@import url('https://fonts.googleapis.com/css?family=Rajdhani');
+@import url('https://fonts.googleapis.com/css2?family=Barlow+Condensed&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Alata&display=swap');
+
+*::-webkit-scrollbar {
+  width: 5px;
+  height: 5px;
+}
+ 
+*::-webkit-scrollbar-thumb {
+  background: rgba(241, 29, 0, 0.993);
+  border-radius: 1px;
+}
+
+*::-webkit-scrollbar-track {
+  background: transparent;
+}
+.menu {
+  z-index: 9999999;
+	font-family: 'Barlow Condensed', sans-serif;
+	min-width: 300px;
+	color: #00ffcc;
+	position: absolute;
+	opacity: 0.9;
+  text-shadow: 
+        -1px -1px 0px #000,
+         0px -1px 0px #000,
+         1px -1px 0px #000,
+        -1px  0px 0px #000,
+         1px  0px 0px #000,
+        -1px  1px 0px #000,
+         0px  1px 0px #000,
+         1px  1px 0px #000,
+         0 0 5px #000,
+         0 0 5px #000,
+         0 0 5px #000;
+         -webkit-filter: drop-shadow(0px 0px 10px #000);
+         filter: drop-shadow(0px 0px 10px #000));
+}
+}
+
+.menu.align-left {
+  right : 110;
+  bottom: 40;
+}
+
+.menu.align-top-left {
+  right : 110;
+  bottom: 40;
+}
+
+.menu.align-top {
+  right : 110;
+  bottom: 40;
+}
+
+.menu.align-top-right {
+  right : 110;
+  bottom: 40;
+}
+
+.menu.align-right {
+  right : 110;
+  bottom: 40;
+}
+
+.menu.align-bottom-right {
+  right : 110;
+  bottom: 40;
+}
+
+.menu.align-bottom {
+  right : 110;
+  bottom: 40;
+}
+
+.menu.align-bottom-left {
+  right : 110;
+  bottom: 40;
+}
+
+.menu.align-center {
+  right : 10;
+  bottom: 40;
+}
+
+.menu .head {
+  background-color: rgba(0, 0, 0, 0.918);
+	border-radius: 6px;
+	color: #00ffcc !important;
+	margin-bottom: 6px;
+	text-align: center;
+	height: 35px;
+	line-height: 35px;
+	z-index: 9999999;
+	font-size: 18px;
+	font-weight: 500;
+  border: 2px solid rgb(0, 208, 255);
+}
+
+.menu .menu-items {
+	font-weight: 500;
+	max-height: 500px;
+	overflow-y: hidden;
+	border-radius: 6px;
+	background-image: url(https://i.gifer.com/3PvU.gif);
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover; 
+  border: 2px solid rgb(0, 195, 255);
+}
+
+.menu .menu-items .menu-item {
+	padding: 3px 0 3px 0;
+	margin: 6px 6px 6px 6px;
+	display: block;
+	height: 22px;
+	line-height: 22px;
+	color: #00ffcc;
+	text-align: center;
+	font-size: 17px;
+}
+
+.menu .menu-items .menu-item.selected {
+  border-radius: 5px;
+  text-shadow: 
+        -1px -1px 0px #000,
+         0px -1px 0px #000,
+         1px -1px 0px #000,
+        -1px  0px 0px #000,
+         1px  0px 0px #000,
+        -1px  1px 0px #000,
+         0px  1px 0px #000,
+         1px  1px 0px #000,
+         0 0 5px #000,
+         0 0 5px #000;
+  background-color: rgba(0, 255, 251, 0.918);
+}
+
+.menu .menu-items .menu-item.selected input {
+  font-family: 'Barlow Condensed', sans-serif;
+  background-color: transparent;
+  color           : #ffffff;
+  text-align      : center;
+  border          : none;
+  outline         : none;
+  width           : 20px;
+  text-shadow: 
+  -1px -1px 0px #000,
+   0px -1px 0px #000,
+   1px -1px 0px #000,
+  -1px  0px 0px #000,
+   1px  0px 0px #000,
+  -1px  1px 0px #000,
+   0px  1px 0px #000,
+   1px  1px 0px #000;
+}
+
+

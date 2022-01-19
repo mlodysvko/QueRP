@@ -1,0 +1,136 @@
+[
+    {
+        "banner": "mdv.",
+        "name": "goofy",
+        "reason": "Zabijanie na szpitalu ( Gracz: goofy ), Zablokowany przez: mdv.",
+        "identifiers": [
+            "steam:110000141ca3886",
+            "license:e493a3e045fbb1f28c2ac049ccb677ebff110017",
+            "xbl:2535472696743324",
+            "live:914798728631800",
+            "discord:818508833315880990",
+            "license2:e493a3e045fbb1f28c2ac049ccb677ebff110017",
+            "ip:5.173.81.38"
+        ],
+        "banid": 1,
+        "expire": 1618947886
+    },
+    {
+        "banner": "mdv.",
+        "name": "Pasta",
+        "reason": "MassCL ( Gracz: Pasta ), Zablokowany przez: mdv.",
+        "identifiers": [
+            "steam:110000145cb4480",
+            "license:053d04312d9dba8d5105013a70cae8e5b2b4c588",
+            "xbl:2535433885358341",
+            "live:844425038542573",
+            "discord:321263384022482956",
+            "license2:053d04312d9dba8d5105013a70cae8e5b2b4c588",
+            "ip:188.147.35.154"
+        ],
+        "banid": 2,
+        "expire": 1618861595
+    },
+    {
+        "banner": "mdv.",
+        "name": "Festy",
+        "reason": "Imersja, PowerGaming ( Gracz: Festy ), Zablokowany przez: mdv.",
+        "identifiers": [
+            "steam:110000119c4e828",
+            "license:55f38682a72ac20f4418c487e60a30071ef3073d",
+            "discord:423921031124615174",
+            "license2:ce905e03415b360a9ec3b70fc334f8a31fcc0ff3",
+            "ip:31.0.126.238"
+        ],
+        "banid": 5,
+        "expire": 1618954076
+    },
+    {
+        "banner": "Poter",
+        "name": "witam",
+        "reason": "4.1 Bez mozliwosci odwolania ( Gracz: witam ), Zablokowany przez: Poter",
+        "identifiers": [
+            "steam:110000141d24fa7",
+            "license:381e94ea1bc4e47c0b3c4e3401f0c83c4b367125",
+            "discord:712593065403220078",
+            "license2:381e94ea1bc4e47c0b3c4e3401f0c83c4b367125",
+            "ip:185.170.32.42"
+        ],
+        "banid": 6,
+        "expire": 10444633200
+    },
+    {
+        "banner": "mdv.",
+        "name": "Milsonnekkk",
+        "reason": "MassCL ( Gracz: Milsonnekkk ), Zablokowany przez: mdv.",
+        "identifiers": [
+            "steam:110000135fe97ca",
+            "license:2ab027021dfcae19d218c2928aa8e146926006aa",
+            "live:844425551836579",
+            "discord:742819811486203924",
+            "license2:2ab027021dfcae19d218c2928aa8e146926006aa",
+            "ip:185.242.154.91"
+        ],
+        "banid": 7,
+        "expire": 1619351206
+    },
+    {
+        "banner": "^0Korosonek",
+        "name": "Nexus jaxi",
+        "reason": "Wstawienie na rzadowy,clka,nieposzanowanie życia ( Gracz: Nexus jaxi ), Zablokowany przez: ^0Korosonek",
+        "identifiers": [
+            "steam:110000146de3ef1",
+            "license:90efdec8d52de001df2625398f98636a28d64b19",
+            "discord:739907964328214609",
+            "license2:90efdec8d52de001df2625398f98636a28d64b19",
+            "ip:195.191.162.252"
+        ],
+        "banid": 8,
+        "expire": 1619357165
+    },
+    {
+        "banner": "mdv. 2 konto",
+        "name": "CyZeN",
+        "reason": "Obraza administracji, VDM ( Gracz: CyZeN ), Zablokowany przez: mdv. 2 konto",
+        "identifiers": [
+            "steam:110000144d0eef6",
+            "license:b4b9e7801e5b7bf034519a998d9b2c58f8b2937f",
+            "discord:503925407108694017",
+            "license2:b4b9e7801e5b7bf034519a998d9b2c58f8b2937f",
+            "ip:89.234.249.174"
+        ],
+        "banid": 9,
+        "expire": 1618883182
+    },
+    {
+        "banner": "^0Korosonek",
+        "name": "Jasnu",
+        "reason": "Clka  ( Gracz: Jasnu ), Zablokowany przez: ^0Korosonek",
+        "banid": 10,
+        "expire": 1618932867,
+        "identifiers": [
+            "steam:11000010db5700b",
+            "license:9a6a4eb4dbbf303dd99ed767ad29f39a03235821",
+            "xbl:2533274973213255",
+            "live:914800949817779",
+            "discord:416243624582578177",
+            "fivem:1423598",
+            "ip:109.196.49.66"
+        ]
+    },
+    {
+        "banner": "mdv.",
+        "name": "Ozborn",
+        "reason": "Nie określono przyczyny ( Gracz: Ozborn ), Zablokowany przez: mdv.",
+        "banid": 11,
+        "identifiers": [
+            "steam:11000014144c619",
+            "license:f649ab7a5f412f10c186da6959f9975f7b360bc6",
+            "live:985154828724406",
+            "discord:667139679220400161",
+            "license2:f649ab7a5f412f10c186da6959f9975f7b360bc6",
+            "ip:89.64.48.125"
+        ],
+        "expire": 1619111718
+    }
+]

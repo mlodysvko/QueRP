@@ -1,0 +1,152 @@
+<html>
+    <head>
+        <link href="style.css" rel="stylesheet" type="text/css" />
+		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB" crossorigin="anonymous">
+		<script src="nui://game/ui/jquery.js" type="text/javascript"></script>
+		
+		<script>
+		$(function() {
+			/* open the UI for user */
+			window.addEventListener('message', function(event) {
+				if(event.data.type == "open"){
+					$('.btn-group').css('display', 'block')
+					$('body').css('display', 'block')
+					$('html').css('display', 'block')
+					$('#menujail').hide();
+					$('#menukartoteka').hide();
+					$('#menumandat').hide();
+				} else if (event.data.type == "close"){
+					$('.btn-group').css('display', 'none')
+					$('body').css('display', 'none')
+					$('html').css('display', 'none')
+					$('#mySidenav').css('width', '0')
+				}
+				
+				if(event.data.type == "kartoteka") {
+					$("#linia").append("<tr><td>" + event.data.imie + "</td><td>" + event.data.nazwisko +"</td><td>" + event.data.powod +"</td><td>" + event.data.grzywna +"</td><td>" + event.data.ilosc_lat +"</td></tr>");
+				}
+			});
+		});	
+		</script>
+	</head>
+
+    <body>	
+		<div class="btn-group">	
+			<div class="container">
+				<div class="row">
+					<div class="col-md-4">
+					<div id="mySidenav" class="sidenav text-center">
+					<a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+					<button class="btn-sm btn-outline-warning mt-3 custom" id="mandatbtn">Wystaw fakture</button>
+					<div class="spacer"></div>
+					<button class="btn-sm btn-danger custom" id="exit_gui">Zamknij</button>
+					</div>
+					<div class="mt-5 pl-5" style="font-size:30px;cursor:pointer;" onclick="openNav()">&#9776;</div>				
+					</div>
+					
+					
+				</div>
+				<div class="row">
+					<div class="col-md-4"></div>
+					<div class="col-md-6 right-color mt-1 " id="menujail">
+						<div class="d-flex justify-content-md-center pb-2">
+							<input class="btn-block mt-2" id="jail_reason" type="text" placeholder="Wpisz powód wysłania do więzienia">
+						</div>
+						<div class="d-flex justify-content-md-center pb-2">
+							<input class="btn-block mt-2" id="jail_time" type="text" placeholder="Czas odsiadki">
+						</div>
+						<div class="d-flex justify-content-md-center pb-2">
+							<input class="btn-block mt-2" id="jail_grzywna" type="text" placeholder="Grzywna">
+						</div>
+							<button class="btn btn-block mt-1 btn-warning border border-light" id="sendjail">Wyślij do wiezienia</button>						
+					</div>
+					<div class="col-md-6 right-color mt-1 " id="menumandat">
+						<div class="d-flex justify-content-md-center pb-2">
+							<input class="btn-block mt-2" id="mandat_reason" type="text" placeholder="Wpisz powód faktury">
+						</div>
+						<div class="d-flex justify-content-md-center pb-2">
+							<input class="btn-block mt-2" id="mandat_amount" type="text" placeholder="Kwota faktury">
+						</div>
+							<button class="btn btn-block mt-5 btn-warning border border-light" id="sendmandat">Wystaw fakture</button>						
+					</div>
+					<div class="col-md-8 spacer2" id="menukartoteka">
+					  <table class="table table-md table-hover table-striped text-white">
+						<thead class="thead-dark">
+						<tr>
+							<th style="width:80px;">Imię</th>
+							<th style="width:100px;">Nazwisko</th>
+							<th style="width:130px;">Powód</th>
+							<th style="width:60px;">$$$</th>
+							<th style="width:60px;">Lata</th>
+						</tr>
+						</thead>
+						<tbody id="linia">
+						</tbody>
+					  </table>
+					</div>
+					
+				</div>
+			</div>	 
+		</div>
+    </body>
+	
+	<script type="text/javascript">
+	function openNav() {
+		document.getElementById("mySidenav").style.width = "200px";
+	}
+
+	function closeNav() {
+		document.getElementById("mySidenav").style.width = "0";
+	}
+
+	$("#exit_gui").click(function(){
+		$('.btn-group').css('display', 'none')
+		$('#mySidenav').css('width', '0')
+		$.post('http://esx_ambulancejob/NUIFocusOff', JSON.stringify({}));
+	});
+	
+	$("#mandatbtn").click(function(){
+		$('#menujail').hide();
+		$('#menukartoteka').hide();
+		$('#menumandat').fadeIn(1000);
+	});	
+	$("#jailbtn").click(function(){
+		$('#menumandat').hide();
+		$('#menukartoteka').hide();
+		$('#menujail').fadeIn(1000);
+	});
+	$("#kartotekabtn").click(function(){
+		$('#menujail').hide();
+		$('#menumandat').hide();
+		$("#linia").empty();
+		$('#menukartoteka').toggle();
+		$.post('http://esx_ambulancejob/kartotekalist', JSON.stringify({}));
+	});
+	
+	$("#sendmandat").click(function(){
+		$.post('http://esx_ambulancejob/mandat', JSON.stringify({mandatreason: $("#mandat_reason").val(), mandatamount: $("#mandat_amount").val()}));
+		$('.btn-group').css('display', 'none')
+		$.post('http://esx_ambulancejob/NUIFocusOff', JSON.stringify({}));
+	});
+	
+	$("#odholujbtn").click(function(){
+		$.post('http://esx_ambulancejob/odholuj', JSON.stringify({}));
+		$('.btn-group').css('display', 'none')
+		$.post('http://esx_ambulancejob/NUIFocusOff', JSON.stringify({}));
+	});
+	
+	$("#sendjail").click(function(){
+		$.post('http://esx_ambulancejob/jail', JSON.stringify({jailreason: $("#jail_reason").val(), jailtime: $("#jail_time").val(), jailgrzywna: $("#jail_grzywna").val()}));
+		$('.btn-group').css('display', 'none')
+		$.post('http://esx_ambulancejob/NUIFocusOff', JSON.stringify({}));
+	});
+
+
+	document.onkeyup = function (data) {
+		if (data.which == 27) { // Escape key
+			$('.btn-group').css('display', 'none')
+			$.post('http://esx_ambulancejob/NUIFocusOff', JSON.stringify({}));
+		}
+	};
+	</script>
+</html>

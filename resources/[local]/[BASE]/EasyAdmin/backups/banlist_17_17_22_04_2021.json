@@ -1,0 +1,63 @@
+[
+    {
+        "banner": "^6Koro ^9TO JA",
+        "banid": 4,
+        "identifiers": [
+            "steam:11000014692858e",
+            "license:de5a16d4bc39ef37aa616b4f6d030a8a7844dc0a",
+            "discord:534358587900690433",
+            "license2:de5a16d4bc39ef37aa616b4f6d030a8a7844dc0a",
+            "ip:83.11.132.111"
+        ],
+        "name": "Fuszi",
+        "reason": " 72 mass clka ( Gracz: Fuszi ), Zablokowany przez: ^6Koro ^9TO JA",
+        "expire": 10444633200
+    },
+    {
+        "banner": "2 palce w natalce",
+        "banid": 5,
+        "identifiers": [
+            "steam:110000142ef96e3",
+            "license:4194a3508f2c8974106418f2543400e5f363d661",
+            "xbl:2535467320405150",
+            "live:914798328949269",
+            "discord:612276240757424130",
+            "license2:4194a3508f2c8974106418f2543400e5f363d661",
+            "ip:178.37.79.21"
+        ],
+        "expire": 1619293687,
+        "reason": "cl ( Gracz: Yvxzi ), Zablokowany przez: 2 palce w natalce",
+        "name": "Yvxzi"
+    },
+    {
+        "banner": "2 palce w natalce",
+        "banid": 6,
+        "identifiers": [
+            "steam:11000013b38b565",
+            "license:1d2125c74473b7cb8d54d2120375fb3b181a89ce",
+            "xbl:2535430047693039",
+            "live:985158108440531",
+            "discord:548200030184407040",
+            "fivem:1274509",
+            "license2:1d2125c74473b7cb8d54d2120375fb3b181a89ce",
+            "ip:31.0.122.218"
+        ],
+        "name": "Kacper",
+        "reason": "combatlog ( Gracz: Kacper ), Zablokowany przez: 2 palce w natalce",
+        "expire": 1619293803
+    },
+    {
+        "banner": "Kubixanty",
+        "banid": 7,
+        "identifiers": [
+            "steam:11000014130bb04",
+            "license:aaa93a9c014c3d62a837ec12540d0b1ec31d9179",
+            "discord:365883740255158272",
+            "license2:aaa93a9c014c3d62a837ec12540d0b1ec31d9179",
+            "ip:83.4.175.228"
+        ],
+        "name": "Maksiu",
+        "reason": "cheaty ( Gracz: Maksiu ), Zablokowany przez: Kubixanty",
+        "expire": 10444633200
+    }
+]

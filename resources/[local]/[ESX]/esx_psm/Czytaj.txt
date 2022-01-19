@@ -1,0 +1,12 @@
+Siema ogólnie dam tu kilka porad gdzie co zmieniæ:
+Zarobek dla gracza?
+Szukamy w server/main.lua linijka 153 [local playermoney = math.random(6650,8200)]
+Zarobek min. 6650 (tu zmieniacie minmalny zarobek) 
+Zarobek max. 8200 (tu zmieniacie maksymalny zarobek)
+
+Zarobek dla firmy?
+Szukamy w sever/main.lua linijka 152 [local money = math.random(14000,15000)]
+Zarobek min. 14000 (tu zmieniacie minimalny zarobek)
+Zarobek max. 15000 (tu zmieniacie maksymalny zarobek)
+
+Generalnie jak z czymœ bêdzie problem piszcie pv Mr Dawid#7841 to wam zmienie 

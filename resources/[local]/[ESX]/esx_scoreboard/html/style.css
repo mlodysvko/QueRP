@@ -1,0 +1,154 @@
+#wrap {
+	width: 1100px;
+	max-width: 1100px;
+	min-height: 752px;
+	max-height: 752px;
+	margin-top: 80px;
+	margin-left: auto;
+	margin-right: auto;
+	background-color: rgb(37,37,37,0.7);
+
+	border-top-left-radius: 15px;
+	border-top-right-radius: 15px;
+
+	border-bottom        : 1px solid;
+ 	border-image-source  : linear-gradient(to right, rgb(18,105,202), rgb(0,242,96));
+  	border-image-slice   : 1;
+	z-index: 99999999;
+}
+
+#wrap.admin {
+	width: 1545px;
+	max-width: 1545px;
+}
+
+table {
+    display: block;
+    text-align: left;
+    overflow-y: auto;
+    max-height: 752px;
+}
+
+th {
+	padding-left: 25px;
+}
+
+#playerid {
+	position: absolute;
+	font-size: 11px;
+	padding-top: 6px;
+	padding-left: 5px;
+}
+
+*::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+}
+   
+*::-webkit-scrollbar-thumb {
+	background: #000;
+	border-radius: 5px;
+}
+  
+*::-webkit-scrollbar-track {
+	background-image: repeating-linear-gradient(to right, rgb(18,105,202), rgb(0,242,96));
+	/*background: #2abde9;*/
+	border-bottom-right-radius: 20px;
+}
+
+#steam {
+	position: absolute;
+	font-size: 11px;
+	padding-top: 6px;
+	padding-left: 30px;
+}
+#player {
+	position: absolute;
+	font-size: 11px;
+	padding-top: 6px;
+	padding-left: 150px;
+}
+
+tr {
+	background: rgb(29,29,29,0.4);
+
+	width: 270px;
+	display: block;
+	height: 25px;
+	position: relative;
+
+	margin-left: 2.5px;
+
+	text-align: center;
+	float: left;
+	font-size: 15px;
+	margin-top: 2.5px;
+
+
+	font-family: 'sans-serif';
+	color: white;
+}
+
+tr.admin {
+	width: 380px;
+}
+
+.heading {
+	border-top-left-radius: 15px;
+	border-top-right-radius: 15px;
+
+	text-align: left;
+	font-family: 'Segoe UI';
+	background: rgb(29,29,29,0.4);
+	color: #ffffff;
+    padding-left: 35px;
+    padding-top: 13px;
+    padding-bottom: 15px;
+    font-size: 20px;
+	background-image: -webkit-linear-gradient(left, rgba(18,105,202, 0.7) 40%,rgb(38,0,255) 100%);
+	-position: absolute;
+	overflow: hidden;
+}
+
+#website {
+	color: #ffffff;
+	margin-top: -38px;
+	margin-left: 170px;
+	font-size: 13px;
+	position: absolute;
+	font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+#discord {
+	margin-top: -25px;
+	margin-left: 170px;
+	font-size: 13px;
+	color: #ffffff;
+	position: absolute;
+	font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.image {
+	margin-top: -40px;
+	margin-left: 128px;
+	position: absolute;
+	width: 35px;
+	height: 35px;
+}
+.sponsor {
+	margin-top: -45px;
+	margin-left: 1128px;
+	position: absolute;
+	width: 204px;
+	height: 43px;
+}
+
+#duties {
+	margin-top: -42px;
+	margin-left: 400px;
+	font-size: 12px;
+	color: white;
+	position: absolute;
+	font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+	overflow: hidden;
+}

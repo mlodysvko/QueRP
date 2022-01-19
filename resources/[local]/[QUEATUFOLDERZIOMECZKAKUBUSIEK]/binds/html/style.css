@@ -1,0 +1,74 @@
+body {
+	
+	overflow: hidden;
+}
+#bodybox{
+	position: absolute;
+	display: none;
+	position: absolute;
+    top: 570px;
+    right: -275px;
+    transform: translate(-115px,-300px);
+	width: 225px;
+	height: 575px;
+}
+
+.box{
+	display: inline-block;
+	width: 65px;
+	height: 65px;
+	margin-top: 50px;
+	margin: -10px;
+	background-color: rgba(0, 0, 0, 0.75);;
+	border-radius: 5px;
+	/*border: 0.5px solid #cb2d3e;*/
+	z-index:1;
+	border-radius: 12px;
+}
+
+.box:after{
+    background-color: rgba(124, 42, 55, 0.699);
+}
+.box:hover{
+    background-color: rgba(124, 42, 55, 0.699);
+}
+
+
+.relative-div{
+	position: relative;	
+	top: 6%;
+	left: 5%;
+	width: 20%;
+	height: 5%;
+	text-align: center;
+}
+
+.relative-div .nr{
+	position: absolute;
+	
+	width: 20px;
+	height: 20px;
+	top: -50%;
+	left: -45%;
+	background-color: rgba(255, 255, 255, 1.0);
+	font-family: "Segoe UI", "Segoe UI Symbol", "Segoe UI Emoji",  Arial, sans-serif;
+	font-weight: 630;
+	/* border  */
+	border: 3px solid rgba(0, 0, 0, 1.0);
+	border-radius: 10px;
+}
+
+
+.img{
+	display: block;
+	margin-left: auto;
+	margin-right: auto;
+	
+	margin-top: 10px;
+
+	height: 64px;
+	width: 45px;
+
+	transition: 1.5s;
+}
+

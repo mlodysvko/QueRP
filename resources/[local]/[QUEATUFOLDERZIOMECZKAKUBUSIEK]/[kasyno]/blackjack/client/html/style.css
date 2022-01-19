@@ -1,0 +1,205 @@
+body {
+    position: absolute;
+    margin-top: 200px;
+	background-position: center; /* Center the image */
+    background-repeat: no-repeat; /* Do not repeat the image */
+    background-image: url("https://i.imgur.com/FxPARxr.png");
+	background-size: cover; /* Resize the background image to cover the entire container */
+    font-family: sans-serif;
+    overflow: hidden;
+    display: none;
+}
+
+.dialog {
+    width: 300px;
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 10px;
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+form {
+    margin: 0;
+}
+
+.card .back {
+  position: absolute;
+  background-image: url("https://i.imgur.com/7CksRq6.png");
+  background-position: 50% 50%;
+  -webkit-background-size: 100% 100%;
+  -moz-background-size: 100% 100%;
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+}
+
+button {
+    display: block;
+    margin-top: 100px;
+    padding: 20px;
+    border: none;
+    border-radius: 15px;
+    color: #fff;
+    width: 100%;
+}
+
+button:hover {
+    color: #fff;
+}
+
+#topbar button {
+    background: rgba(5, 5, 5, 0.5);
+    outline: none;
+    margin: 0.1rem;
+    padding: 0.4rem;
+    font: inherit;
+    font-size: 0.8rem;
+    line-height: 1;
+    color: #fff;
+    cursor: pointer;
+    border: 3px solid #98d4e0;
+    border-radius: 10px;
+  }
+  #topbar button:hover {
+    background: rgba(5, 5, 5, 0.5);
+    color: #98d4e0;
+    border: 3px solid #0e718b;
+  }
+
+#topbar {
+    top: 17%;
+    left: 49.9%;
+    width: 18%;
+    transform: translate(-50%, -50%);
+    background: none;
+}
+
+#container {
+    position: fixed;
+    top: calc(63% + 1.5rem);
+    left: 50%;
+    -webkit-transform: translate3d(-50%, -50%, 0);
+    -moz-transform: translate3d(-50%, -50%, 0);
+    -o-transform: translate3d(-50%, -50%, 0);
+    -ms-transform: translate3d(-50%, -50%, 0);
+    transform: translate3d(-50%, -50%, 0);
+  }
+
+
+  .wartosci {
+    position: absolute;
+    display: block;
+    top: 1%;
+    left: 1980%;
+  }
+
+  .ownedCoins {
+    display: inline-flex;
+    position: absolute;
+    float: left;
+    font-size: 24px;
+    color: white;
+    font-weight: 300;
+    margin-left: 1vw;
+    left: 20%; right: 20%;
+  }
+  
+  #ownedCoins {
+    display: inline-flex;
+    font-size: 27px;
+    color: white;
+    font-weight: 300;
+  }
+  
+  .ownedBet {
+    display: flex;
+    position: absolute;
+    top: 2.0vw;
+    float: left;
+    font-size: 24px;
+    color: white;
+    font-weight: 300;
+    left: 20%; right: 20%;
+  }
+  
+  #ownedBet {
+    display: flex;
+    font-size: 24px;
+    color: white;
+    font-weight: 300;
+  }
+  
+  .ownedPoints {
+    display: flex;
+    position: absolute;
+    top: 4.0vw;
+    float: left;
+    font-size: 24px;
+    color: white;
+    font-weight: 300;
+    left: 20%; right: 20%;
+  }
+  
+  #ownedPoints {
+    display: flex;
+    font-size: 24px;
+    color: white;
+    font-weight: 300;
+  }
+
+/* KARTY */
+
+.card.spades.rank1 .face {
+  background-image: url("https://i.imgur.com/YSO51Nh.png");
+}
+.card.spades.rank11 .face {
+  background-image: url("https://i.imgur.com/ZWvQGps.png");
+}
+.card.spades.rank12 .face {
+  background-image: url("https://i.imgur.com/8utgcWv.png");
+}
+.card.spades.rank13 .face {
+  background-image: url("https://i.imgur.com/RXgFf9J.png");
+}
+
+.card.hearts.rank1 .face {
+  background-image: url("https://i.imgur.com/wG1y7zI.png");
+}
+.card.hearts.rank11 .face {
+  background-image: url("https://i.imgur.com/rQxMjED.png");
+}
+.card.hearts.rank12 .face {
+  background-image: url("https://i.imgur.com/YPw1Kjb.png");
+}
+.card.hearts.rank13 .face {
+  background-image: url("https://i.imgur.com/GJ99J2S.png");
+}
+
+.card.clubs.rank1 .face {
+  background-image: url("https://i.imgur.com/9KtQRih.png");
+}
+.card.clubs.rank11 .face {
+  background-image: url("https://i.imgur.com/CKScQcc.png");
+}
+.card.clubs.rank12 .face {
+  background-image: url("https://i.imgur.com/2TBaOKh.png");
+}
+.card.clubs.rank13 .face {
+  background-image: url("https://i.imgur.com/vsSU1Bl.png");
+}
+
+.card.diamonds.rank1 .face {
+  background-image: url("https://i.imgur.com/uuwsOP5.png");
+}
+.card.diamonds.rank11 .face {
+  background-image: url("https://i.imgur.com/CotSKXn.png");
+}
+.card.diamonds.rank12 .face {
+  background-image: url("https://i.imgur.com/FH5jGcE.png");
+}
+.card.diamonds.rank13 .face {
+  background-image: url("https://i.imgur.com/fEqt78g.png");
+}

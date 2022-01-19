@@ -1,0 +1,35 @@
+[
+    {
+        "banner": "guccimil",
+        "banid": 1,
+        "identifiers": [
+            "steam:110000149c66755",
+            "license:9e45e884ee9098dc8d974ededdf88a5f42a5e518",
+            "xbl:2535431825392640",
+            "live:914798923274073",
+            "discord:564825741729071115",
+            "license2:9e45e884ee9098dc8d974ededdf88a5f42a5e518",
+            "ip:31.183.140.204"
+        ],
+        "expire": 10444633200,
+        "name": "BARTUS",
+        "reason": "cheaty ( Gracz: BARTUS ), Zablokowany przez: guccimil"
+    },
+    {
+        "banner": "HUGO",
+        "banid": 2,
+        "expire": 10444633200,
+        "reason": "cheaty ( Gracz: Peter Griffin ), Zablokowany przez: HUGO",
+        "name": "Peter Griffin",
+        "identifiers": [
+            "steam:11000014931b0d5",
+            "license:c4a1a008d678228092df1cc4ad3b070e1eeeaaf1",
+            "xbl:2535456735427702",
+            "live:1055519431242946",
+            "discord:864816461779435570",
+            "fivem:4025687",
+            "license2:c4a1a008d678228092df1cc4ad3b070e1eeeaaf1",
+            "ip:86.81.152.38"
+        ]
+    }
+]

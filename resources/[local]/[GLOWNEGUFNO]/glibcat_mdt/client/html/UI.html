@@ -1,0 +1,1894 @@
+<html>
+    <head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<meta http-equiv="X-UA-Compatible" content="ie=edge">
+		<meta name="author" content="GLIBCAT">
+		
+		
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js" type="text/javascript"></script>
+        <link href="css/style.css" rel="stylesheet" type="text/css" />
+		
+		<script src="scripts/alertify.js" type="text/javascript"></script>
+		<link href="css/croppie.css" rel="stylesheet" type="text/css">
+		<script src="scripts/croppie.js" type="text/javascript"></script>
+		<link href="css/alertify.css" rel="stylesheet" type="text/css">
+		<link href="css/default.css" rel="stylesheet" type="text/css">		
+
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+		<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.2/css/all.css">
+		
+		<script type="text/javascript">
+			function changeFormat(data){
+				var dzisiaj = new Date(data).toLocaleString("fr-CA", {
+					timeZone: "Europe/Warsaw",
+					year: 'numeric',
+					month: '2-digit',
+					day: '2-digit',
+					hour: '2-digit',
+					minute: '2-digit',
+					second: '2-digit',
+				});
+				
+				dzisiaj = dzisiaj.replace(" h ", ":");
+				dzisiaj = dzisiaj.replace(" min ", ":");
+				dzisiaj = dzisiaj.replace(" s", "");
+
+				return dzisiaj;
+			}
+			
+			function odliczanie(){				
+				var hour = new Date().toLocaleString("fr-CA", {
+					timeZone: "Europe/Warsaw",
+					hour: '2-digit',
+					minute: '2-digit',
+				});	
+
+				
+				hour = hour.replace(" h ", ":");							
+				document.getElementById("clock").innerHTML = hour;
+				
+				if (otwarty){
+					setTimeout(function(){ 
+						odliczanie();
+					}, 1000);
+				}
+			}
+		</script>
+				
+		<script>				
+		var suspect_sound = new Audio('../html/sounds/suspect.mp3');
+		suspect_sound.volume = 0.1;
+		
+		var otwarty = false;
+		
+		var identifier_user = "";
+		var jobGrade_user;
+		var identifier_kartoteka = "";
+		
+		var notepad_used = false;
+		
+		var noweOgloszenie = false;
+		var wyswietloneOgloszenie = false;
+		var loadedAnnouncements = false;
+		
+		var loadedTariff = false;
+		
+		var loadedRaports = false;
+		var raportsAmount = 0;
+		
+		var loadedDispatch = false;
+		
+		/* WCZYTYWANE WARTOSCI */
+		var apiKey = "";
+		var maxTicket;
+		var maxTariff;
+		var maxJailTime;
+		var minJobGrade_user;
+		var ogloszeniaJobGrade_user;
+		var raportJobGrade;
+		var dispatchLink = "";
+	
+		function open(){
+			$('body').css('display', 'block');
+			otwarty = true;
+			loadFingerprint();
+			odliczanie();
+		}
+		
+		function close(){
+			$('body').css('display', 'none');
+			
+			otwarty = false;
+			
+			$('#wrapper-notepad').css('display', 'none');
+			$('#wrapper-dispatch').css('display', 'none');
+			$('#wrapper-announcements').css('display', 'none');
+			$('#wrapper-reports').css('display', 'none');
+			$('#wrapper').css('display', 'none');
+			
+			$('#wrapper2').css('display', 'none');
+			$('.kartotekaMenu').css('display', 'block');
+			$('.kartoteka-containter').css('display', 'none');
+			$('.kartoteka-containter2').css('display', 'none');		
+			document.getElementById("kartoteka-mandaty").innerHTML = "";
+			document.getElementById("kartoteka-notatki").innerHTML = "";
+			document.getElementById("kartoteka-poszukiwania").innerHTML = "";
+			zmniejszanie();
+		
+			$('#wrapper-checkvehicle').css('display', 'none');
+			$('#mandatwrp').css('display', 'none');
+			$('#jailwrp').css('display', 'none');
+			
+			$('#btn-group').css('display', 'block');
+			
+			$(".nearbyPlayers option").each(function() {
+				$(this).remove();
+			});
+			
+			$('#mySidenav').css('width', '0');
+		}
+		
+		function fullclose(){
+			location.reload();
+			$('body').css('display', 'none');
+		}
+		
+		function restart(){
+			$('body').css('display', 'block');
+			
+			otwarty = true;
+			odliczanie();
+			
+			if (loadedTariff == true){
+				$(".header").html("");
+				loadedTariff = false;
+			}
+			
+			
+			document.getElementById("table-ogloszenia").innerHTML = "";
+			document.getElementById("table-ogloszenia-header").innerHTML = "";
+			
+			document.getElementById("table-reports").innerHTML = "";
+			document.getElementById("table-reports-archiwum").innerHTML = "";
+
+			
+			
+			loadedAnnouncements = false;
+			loadedRaports = false;
+			raportsAmount = 0;
+			
+			loadFingerprint();
+			
+			$('#btn-group').css('display', 'none');
+			$('#loginScreen').css('display', 'block');
+			$('#userName').css('display', 'none');
+		}
+		
+		$(function() {
+			/* Otwieranie UI */
+			window.addEventListener('message', function(event) {
+				if(event.data.type == "open"){
+					open();
+				} else if (event.data.type == "close"){
+					close();
+				} else if (event.data.type == "fullclose"){
+					fullclose();
+				} else if (event.data.type == "restart"){
+					restart();
+				}
+				
+				/* Wczytanie zmiennych z configu */
+				if(event.data.type == "variables"){
+					minJobGrade_user = event.data.minJobGrade;
+					ogloszeniaJobGrade_user = event.data.ogloszeniaJobGrade;
+					maxTicket = event.data.maxTicket;
+					maxTariff = event.data.maxTariff;
+					maxJailTime = event.data.maxJailTime;
+					raportJobGrade = event.data.raportJobGrade;
+					$('#serverName').html(event.data.serverName);
+					apiKey = event.data.imgurApiKey;
+					
+					if(event.data.useRaports == false){
+						$('#open_reports').css('display', 'none');
+					}
+					
+					if(event.data.useDispatch){
+						setTimeout(function(){ 
+							$('#open_dispatch').css('display', 'inline');
+							dispatchLink = event.data.dispatchLink;
+						}, 500);
+					}
+				}
+				
+				/*  Gracze w okolicy */
+				if(event.data.type == "players") {
+					$(".nearbyPlayers").append(new Option("Obywatel [" + event.data.id + "]", event.data.id));
+				}
+				
+				/*  Dane policjanta + załadowanie ogłoszeń */
+				if(event.data.type == "user") {
+					$('#userName').html(event.data.user);
+					identifier_user = event.data.identifier;
+					jobGrade_user = event.data.jobGrade;			
+					
+					if(jobGrade_user < raportJobGrade){
+						document.getElementById("reports-logo").innerHTML = "TWOJE RAPORTY";
+					}
+				}
+				
+				
+				/*  Wczytywanie kartoteki */
+				if(event.data.type == "openKartoteka") {
+				
+					setTimeout(function(){ 
+						$('.kartoteka-containter').fadeIn(250);
+						$('.kartoteka-containter2').fadeIn(250);
+						$('.kartotekaMenu').css('display', 'none');
+					}, 2100);
+					
+						$('#kartotekaFirstName').html(event.data.first);
+						$('#kartotekaLastName').html(event.data.last);
+						identifier_kartoteka = event.data.id;
+						
+						if(event.data.sex=="m")
+							$('#kartotekaSex').html("Mężczyzna");
+						else
+							$('#kartotekaSex').html("Kobieta");
+							
+						$('#kartotekaBirthDate').html(event.data.birthDate);
+						
+						if(event.data.kartoteka_avatar == null){
+							$("#suspect-avatar").attr("src", "images/suspect.svg");
+						} else {
+							$("#suspect-avatar").attr("src", event.data.kartoteka_avatar);
+						}
+				}
+				
+				if(event.data.type == "insertKartoteka") {		
+					$('#kartoteka-mandaty').prepend('<tr><td>' + event.data.reason + '</td><td width="15%" style="text-align: center">' + "$" + event.data.charge + '</td><td width="15%" style="text-align: center">' + event.data.years + '</td><td width="15%" style="text-align: center">' + event.data.fp + '</td><td width="15%" style="text-align: center">' + changeFormat(event.data.data) + '</td><td width="10%" style="text-align: center; font-size: 0.8vw"><span class="removeRecordK"><i class="fas fa-window-close" style="color: red"></i></span></td></tr>');
+				}
+							
+				if(event.data.type == "insertPoszukiwania") {
+					$('#kartoteka-poszukiwania').prepend('<tr><td>' + event.data.reason + '</td><td width="10%" style="text-align: center">' + event.data.pojazd + '</td><td width="15%" style="text-align: center">' + event.data.fp + '</td><td width="20%" style="text-align: center">' + changeFormat(event.data.data) + '</td><td width="10%" style="text-align: center; font-size: 0.8vw"><span class="removeRecordP"><i class="fas fa-window-close" style="color: red"></i></span></td></tr>');
+				}
+
+				if(event.data.type == "insertLicenses") {
+					if(event.data.typ == "drive_bike" ){
+						$('#katA').html("Tak");
+					} else if (event.data.typ == "drive" ){
+						$('#katB').html("Tak");
+					} else if (event.data.typ == "drive_truck" ){
+						$('#katC').html("Tak");
+					} else if (event.data.typ == "weapon" ){
+						$('#gunShort').html("Tak");
+					} else if (event.data.typ == "weapon_long"){
+						$('#gunLong').html("Tak");
+					}
+				}
+				
+				if(event.data.type == "insertNotatki") {
+					$('#kartoteka-notatki').prepend('<tr><td >' + event.data.note + '</td><td width="30%" style="text-align: center">' + event.data.policjant + '</td><td width="20%" style="text-align: center">' + changeFormat(event.data.data) + '</td><td width="10%" style="text-align: center; font-size: 0.8vw"><span class="removeRecordN"><i class="fas fa-window-close" style="color: red"></i></span></td></tr>');
+				}
+
+				if(event.data.type == "insertCars") {	
+					$('#kartoteka-cars').append('<tr><td style="font-size: 0.8vw">' + event.data.model + '</td><td style="font-size: 0.8vw">' + event.data.plate +'</td></tr>');
+				}
+				
+				/*  Wczytywanie ogłoszeń */
+				
+				if(event.data.type == "insertOgloszenia") {
+					if (jobGrade_user >= ogloszeniaJobGrade_user) {
+						if(event.data.data.length != 19){
+							$('#table-ogloszenia').prepend('<tr><td>' + event.data.ogloszenie + '</td><td width="30%" style="text-align: center">' + event.data.fp + '</td><td width="20%" style="text-align: center">' + changeFormat(event.data.data) + '</td><td width="10%" style="text-align: center"><span class="removeRecordO"><i class="fas fa-window-close" style="color: red; font-size:1vw"></i></span></td></tr>');		
+						} else {
+							$('#table-ogloszenia').prepend('<tr><td>' + event.data.ogloszenie + '</td><td width="30%" style="text-align: center">' + event.data.fp + '</td><td width="20%" style="text-align: center">' + event.data.data + '</td><td width="10%" style="text-align: center"><span class="removeRecordO"><i class="fas fa-window-close" style="color: red; font-size:1vw"></i></span></td></tr>');
+						}
+					} else {
+						if(event.data.data.length != 19){
+							$('#table-ogloszenia').prepend('<tr><td>' + event.data.ogloszenie + '</td><td width="30%" style="text-align: center">' + event.data.fp + '</td><td width="20%" style="text-align: center">' + changeFormat(event.data.data) + '</td></tr>');
+						} else {
+							$('#table-ogloszenia').prepend('<tr><td>' + event.data.ogloszenie + '</td><td width="30%" style="text-align: center">' + event.data.fp + '</td><td width="20%" style="text-align: center">' + event.data.data + '</td></tr>');
+						}
+					}
+				}
+				
+				/*  Wczytywanie raportów */
+				
+				if(event.data.type == "insertRaports") {
+					if (jobGrade_user >= raportJobGrade) {
+						if(event.data.status){
+							$('#table-reports-archiwum').prepend('<tr><td>' + event.data.raport + '</td><td width="30%" style="text-align: center">' + event.data.fp + '</td><td width="20%" style="text-align: center">' + changeFormat(event.data.data) + '</td><td width="10%" style="text-align: center"><span class="removeRecordR"><i class="fas fa-check-square" style="color: green; font-size:1vw"></i></span></td></tr>');			
+						} else {
+							raportsAmount = raportsAmount + 1;
+							$('#table-reports').prepend('<tr><td>' + event.data.raport + '</td><td width="30%" style="text-align: center">' + event.data.fp + '</td><td width="20%" style="text-align: center">' + changeFormat(event.data.data) + '</td><td width="10%" style="text-align: center"><span class="removeRecordR"><i class="fas fa-window-close" style="color: red; font-size:1vw"></i></span></td></tr>');
+						}
+					} else {
+						if(event.data.status){
+							$('#table-reports-archiwum').prepend('<tr><td>' + event.data.raport + '</td><td width="30%" style="text-align: center">' + event.data.fp + '</td><td width="20%" style="text-align: center">' + changeFormat(event.data.data) + '</td><td width="10%" style="text-align: center"><span><i class="fas fa-check-square" style="color: green; font-size:1vw"></i></span></td></tr>');
+						} else {
+							$('#table-reports').prepend('<tr><td>' + event.data.raport + '</td><td width="30%" style="text-align: center">' + event.data.fp + '</td><td width="20%" style="text-align: center">' + changeFormat(event.data.data) + '</td><td width="10%" style="text-align: center"><span><i class="fas fa-window-close" style="color: red; font-size:1vw"></i></span></td></tr>');
+						}
+					}
+				}
+				
+				/*  Wczytywanie notatnika */
+				
+				if(event.data.type == "insertNotepad") {
+					$('#notepad-textarea').val(event.data.notepad);
+				}
+				
+				/* Sprawdź pojazd */
+				
+				if(event.data.type == "showVehicle") {
+					setTimeout(function(){
+						$('#vehicleOwner').html(event.data.owner);
+						$('#vehicleModel').html(event.data.model);
+						checkVehicle();
+					}, 2100);
+				}
+				
+				/*  Alerty */
+				
+				if(event.data.type == "zleDane") {
+					setTimeout(function(){ alertify.error('Wprowadzono złe dane!'); }, 2100);
+				}
+				
+				if(event.data.type == "brakUzytkownika") {
+					setTimeout(function(){ alertify.error('Brak danych!'); }, 2100);
+				}
+				
+				if(event.data.type == "brakPojazdu") {
+					setTimeout(function(){ alertify.error('Brak danych!'); }, 2100);
+				}
+				
+				if(event.data.type == "newOgloszenie") {
+					noweOgloszenie = true;
+					
+					if ($('#wrapper-announcements').css('display') === 'none'){
+						wyswietloneOgloszenie = false;
+						$('#pendingAnnouncement').css('display', 'inline');
+					}	
+				}
+				
+				if(event.data.type == "unseenRaport") {
+					$('#pendingReport').css('display', 'inline');
+				}
+				
+				if(event.data.type == "newOpenedOgloszenie") {
+					noweOgloszenie = true;
+					powiekszenie("powieksz3");
+					
+					if ($('#wrapper-announcements').css('display') === 'none'){
+						wyswietloneOgloszenie = false;
+						$('#pendingAnnouncement').css('display', 'inline');
+					}
+				}
+				
+				if(event.data.type == "insertSyncRaport") {
+					powiekszenie("powieksz7");
+					
+					raportsAmount = raportsAmount + 1;
+				
+					if(($('#pendingReport').css('display') === 'none')){
+						$('#pendingReport').css('display', 'inline');
+					}
+						
+					$('#table-reports').prepend('<tr><td>' + event.data.raport + '</td><td width="30%" style="text-align: center">' + event.data.fp + '</td><td width="20%" style="text-align: center">' + event.data.data + '</td><td width="10%" style="text-align: center"><span class="removeRecordR"><i class="fas fa-window-close" style="color: red; font-size:1vw"></i></span></td></tr>');
+					
+				}
+				
+				if(event.data.type == "newTwojstaryOgloszenie") {
+					powiekszenie("powieksz3");
+					$('#pendingAnnouncement').css('display', 'inline');
+				}
+				
+				if(event.data.type == "jestPoszukiwany") {
+					setTimeout(function(){ 
+						alertify.error('Ten obywatel jest poszukiwany!');
+						powiekszenie("powieksz");
+						suspect_sound.play();				
+					}, 2100);
+				}
+				
+				
+			});
+		});	
+		</script>
+	</head>
+
+<body style = "display:none">	
+	<div id="tablet">
+		<div class="main" style="display:block">
+			<div class="tablet-background">
+				<div style="position: absolute; top: 0; bottom: 0; left: 0; right: 0; overflow: hidden">
+					<div id="wifi" style="user-select: none;"> <i class="fas fa-wifi"></i> <span id="serverName"></span></div>
+					<div id="tabletuser" style="user-select: none;"><span style="margin-right: 0.5vw"><i class="fas fa-user"></i> Zalogowany jako: <span id="userName" style="display:none"></span></span></div>
+					<div id="clock" style="user-select: none;"></div>
+					<img id="tablet-img" src="images/background.png"/>
+					
+					<!-- ########### LOGIN ###########  -->
+						
+						<div class="container" id="loginScreen" style="width: 94.6%; display:block">
+							<div class="demo" ><img id="logo" src="../html/images/logo.png">  
+								<div class="demo__screen demo__screen--clickable" >
+									<svg class="demo__fprint"  viewBox="35 146 110 110"  >
+										<path class="demo__fprint-path demo__fprint-path--removes-backwards demo__fprint-path--pinkish" d="M46.1,214.3c0,0-4.7-15.6,4.1-33.3"/>
+										<path class="demo__fprint-path demo__fprint-path--removes-backwards demo__fprint-path--purplish" d="M53.5,176.8c0,0,18.2-30.3,57.5-13.7"/>
+										<path class="demo__fprint-path demo__fprint-path--removes-forwards demo__fprint-path--pinkish" d="M115.8,166.5c0,0,19.1,8.7,19.6,38.4"/>
+										<path class="demo__fprint-path demo__fprint-path--removes-backwards demo__fprint-path--pinkish" d="M47.3,221c0,0,3.1-2.1,4.1-4.6s-5.7-20.2,7-36.7c8.5-11,22.2-19,37.9-15.3"/>
+										<path class="demo__fprint-path demo__fprint-path--removes-forwards demo__fprint-path--pinkish" d="M102.2,165.4c10.2,2.7,19.5,10.4,23.5,20.2c6.2,15.2,4.9,27.1,4.1,39.4"/>
+										<path class="demo__fprint-path demo__fprint-path--removes-backwards demo__fprint-path--purplish" d="M51.1,226.5c3.3-2.7,5.1-6.3,5.7-10.5c0.5-4-0.3-7.7-0.3-11.7"/>
+										<path class="demo__fprint-path demo__fprint-path--removes-backwards demo__fprint-path--purplish" d="M56.3,197.9c3.1-16.8,17.6-29.9,35.1-28.8c17.7,1.1,30.9,14.9,32.8,32.2"/>
+										<path class="demo__fprint-path demo__fprint-path--removes-forwards demo__fprint-path--purplish" d="M124.2,207.9c0.5,9.3,0.5,18.7-2.1,27.7"/>
+										<path class="demo__fprint-path demo__fprint-path--removes-backwards demo__fprint-path--pinkish" d="M54.2,231.1c2.1-2.6,4.6-5.1,6.3-8c4.2-6.8,0.9-14.8,1.5-22.3c0.5-7.1,3.4-16.3,10.4-19.7"/>
+										<path class="demo__fprint-path demo__fprint-path--removes-backwards demo__fprint-path--purplish" d="M77.9,178.2c9.3-5.1,22.9-4.7,30.5,3.3"/>
+										<path class="demo__fprint-path demo__fprint-path--removes-forwards demo__fprint-path--purplish" d="M113,186.5c0,0,13.6,18.9,1,54.8"/>
+										<path class="demo__fprint-path demo__fprint-path--removes-backwards demo__fprint-path--pinkish" d="M57.3,235.2c0,0,5.7-3.8,9-12.3"/>
+										<path class="demo__fprint-path demo__fprint-path--removes-forwards demo__fprint-path--pinkish" d="M111.7,231.5c0,0-4.1,11.5-5.7,13.6"/>
+										<path class="demo__fprint-path demo__fprint-path--removes-backwards demo__fprint-path--purplish" d="M61.8,239.4c9.3-8.4,12.7-19.7,11.8-31.9c-0.9-12.7,3.8-20.6,18.5-21.2"/>
+										<path class="demo__fprint-path demo__fprint-path--removes-forwards demo__fprint-path--pinkish" d="M97.3,188.1c8.4,2.7,11,13,11.3,20.8c0.4,11.8-2.5,23.7-7.9,34.1c-0.1,0.1-0.1,0.2-0.2,0.3
+											c-0.4,0.8-0.8,1.5-1.2,2.3c-0.5,0.8-1,1.7-1.5,2.5"/>
+										<path class="demo__fprint-path demo__fprint-path--removes-backwards demo__fprint-path--purplish" d="M66.2,242.5c0,0,15.3-11.1,13.6-34.9"/>
+										<path class="demo__fprint-path demo__fprint-path--removes-backwards demo__fprint-path--pinkish" d="M78.7,202.5c1.5-4.6,3.8-9.4,8.9-10.6c13.5-3.2,15.7,13.3,14.6,22.1"/>
+										<path class="demo__fprint-path demo__fprint-path--removes-forwards demo__fprint-path--pinkish" d="M102.2,219.7c0,0-1.7,15.6-10.5,28.4"/>
+										<path class="demo__fprint-path demo__fprint-path--removes-backwards demo__fprint-path--pinkish" d="M72,244.9c0,0,8.8-9.9,9.9-15.7"/>
+										<path class="demo__fprint-path demo__fprint-path--removes-forwards demo__fprint-path--pinkish" d="M84.5,223c0.3-2.6,0.5-5.2,0.7-7.8c0.1-2.1,0.2-4.6-0.1-6.8c-0.3-2.2-1.1-4.3-0.9-6.5c0.5-4.4,7.2-6.9,10.1-3.1
+											c1.7,2.2,1.7,5.3,1.9,7.9c0.4,3.8,0.3,7.6,0,11.4c-1,10.8-5.4,21-11.5,29.9"/>
+										<path class="demo__fprint-path demo__fprint-path--removes-forwards demo__fprint-path--purplish" d="M90,201.2c0,0,4.6,28.1-11.4,45.2"/>
+										<path class="demo__fprint-path demo__fprint-path--pinkish" id='demo__elastic-path' d="M67.3,219C65,188.1,78,180.1,92.7,180.3c18.3,2,23.7,18.3,20,46.7"/>
+									</svg>    
+								</div>
+							</div>
+						</div>
+
+					<!-- ##########MAIN########## -->
+
+						<div class="container" id="btn-group" style="width: 94.6%; display:none">
+							<div class="row">
+								<div id="mySidenav" class="sidenav">
+									<a href="javascript:void(0)" class="closebtn" onclick="closeNav()" style="user-select: none;">&times;</a>
+									<a class="side-btn" id="open_mandat">Mandat</a>
+									<a class="side-btn" id="open_jail">Więzienie</a>
+									<a class="side-btn" id="open_taryfikator">Taryfikator</a>
+									<a class="side-btn" id="open_kartoteka">Kartoteka</a>
+									<a class="side-btn" id="open_checkvehicle">Sprawdź pojazd</a>
+									<a class="side-btn" id="open_notepad">Notatnik</a>
+									<a class="side-btn" id="open_announcements">Ogłoszenia<span id = "pendingAnnouncement"  style="margin-left: 5px; color:#e82323; display:none; font-size:17px;"><i class="fas fa-exclamation-circle"></i></span></a>
+									<a class="side-btn" id="open_reports">Raporty<span id = "pendingReport"  style="margin-left: 5px; color:#e82323; display:none; font-size:17px;"><i class="fas fa-exclamation-circle"></i></span></a>
+									<a class="side-btn" id="open_dispatch" style="display:none">Dispatch</a>
+									<a class="side-btn" id="exit_gui">Zamknij</a>
+								</div>
+							</div>
+							<span class="open-btn" onclick="openNav()"><i class="fa fa-bars" aria-hidden="true"></i></span>
+						</div>
+					
+					<!-- ##########MANDAT########## -->	
+
+						<div class="container" id="mandatwrp" style="width: 94.6%; display:none">
+							<button class="exit-btn" id="exit_mandat"><span>COFNIJ </span></button>
+							<div class="inputMenu" id="mandatMenu">
+								<div class="inputMenu-container">
+										
+									<div class="inputMenu-div">
+										<select id="mandatPlayer" name="cars" class="nearbyPlayers" >
+										</select>
+									</div>
+			
+									<div class="inputMenu-div">
+										<input id="mandat_reason" type="text" class="jail-input" placeholder="Powód">
+									</div>
+											
+									<div class="inputMenu-div">
+										<input id="mandat_grzywna" type="number" class="jail-input" min="0" placeholder="Grzywna">
+									</div>
+											
+									<div class="inputMenu-div">
+										<button id="sendmandat" class="jail-btn">Wykonaj</button>
+									</div>
+
+								</div>	
+							</div>
+						</div>
+						
+					<!-- ##########JAIL########## -->	
+					
+						<div class="container" id="jailwrp" style="width: 94.6%; display:none">
+							<button class="exit-btn" id="exit_jail"><span>COFNIJ </span></button>
+							<div class="inputMenu">
+								<div class="inputMenu-container">
+									
+									<div class="inputMenu-div">
+											<select id="jailPlayer" name="cars" class="nearbyPlayers" >
+											</select>
+									</div>
+
+									<div class="inputMenu-div">
+											<input id="jail_reason" type="text" class="jail-input" placeholder="Powód">
+									</div>
+										
+									<div class="inputMenu-div">
+											<input id="jail_time" type="number" class="jail-input" min="0" placeholder="Czas w wiezieniu">
+									</div>
+										
+									<div class="inputMenu-div">
+											<input id="jail_grzywna" type="number" class="jail-input" min="0" placeholder="Grzywna">
+									</div>
+										
+									<div class="inputMenu-div">
+											<button id="sendjail" class="jail-btn">Wykonaj</button>
+									</div>
+								</div>	
+							</div>
+						</div>
+
+					<!-- ##########TARYFIKATOR########## -->
+
+						<div class="container" id="wrapper" style="width: 94.6%; display:none">
+							<div class="header" id="style-1"></div>
+
+							<button class="exit-btn" id="exit_taryfikator"><span>COFNIJ </span></button>
+							<button class="ticket-btn" id="myBtn">Wystaw</button>
+
+							<div id="myModal" class="modal">
+								<div class="modal-content">
+									<span id="close" class="close">&times;</span>
+									<span id="title">Wyrok - Taryfikator</span>
+									
+									<hr class="linia">
+
+									<span id="title2">Mandat:</span>
+									<div class="ticket"><span id="reason"></span></div>
+									
+									<hr class="linia">
+									
+									<span id="title2">Sugerowana kara:</span>
+									<div class="ticket"><span id="charge"></span></div>
+									<div class="ticket"><span id="jail"></span></div>
+									<div class="ticket"><span id="penalty"></span></div>
+
+									<br/>
+
+									<span id="close-btn" class="close-btn">ZAMKNIJ</span>
+
+									<span id="copy-btn" class="copy-btn" onclick="CopyToClipboard('reason');return false;">KOPIUJ</span>
+									<span id="next-btn">DALEJ</span>
+									<br/>
+								</div>
+							</div>  
+						</div>
+					
+					<!-- ##########KARTOTEKA########## -->
+
+						<div class="container" id="wrapper2" style="width: 94.6%; display:none">
+							<div class="kartoteka" id="style-1">
+								<button class="exit-btn" id="exit_kartoteka"><span>COFNIJ </span></button>
+								
+								<div class="kartotekaMenu" style="display:block">
+									<div class="inputMenu-container">
+									
+										<div class="inputMenu-div">
+											<input id="suspect_input" type="text" class="jail-input" placeholder="Wyszukaj">
+										</div>
+										<div class="inputMenu-div">
+											<button id="search-suspect" class="jail-btn">Wyszukaj</button>
+										</div>
+		
+									</div>	
+								</div>
+								
+								<div class="kartoteka-containter" style="display:none">
+									
+									<div class="avatar">
+										<img id="suspect-avatar" src="images/suspect.svg">
+										
+										<div class="change-avatar">							
+											<p class="avatar-text" style="z-index: 2; margin:0;">Zmień zdjęcie</p>
+											<div class="change-avatar-background"></div>
+										</div>
+										
+										<input type="file" id="suspect-avatar-input" accept="image/*" data-max-size="20000">
+									</div>
+		
+									<div class="suspect-data">
+										<table class="table-data">
+											<tr>
+												<th colspan="2" style="text-align: center">Dane Osobowe</th>
+											</tr>
+											<tr>
+												<td style="background-color: rgba(200, 200, 200, 0.8)">Imię:</td><td><span id="kartotekaFirstName">John</span></td>
+											</tr>
+											
+											<tr>
+												<td style="background-color: rgba(200, 200, 200, 0.8)">Nazwisko:</td><td><span id="kartotekaLastName">Masno</span></td>
+											</tr>
+												
+											<tr>
+												<td style="background-color: rgba(200, 200, 200, 0.8)">Płeć:</td><td><span id="kartotekaSex">Mężczyzna</span></td>
+											</tr>
+											
+											<tr>
+												<td style="background-color: rgba(200, 200, 200, 0.8)">Data urodzenia:</td><td><span id="kartotekaBirthDate">00-00-0000</span></td>
+											</tr>
+										</table>
+									</div>
+		
+									<div class="suspect-goods">
+										<button id="collapsible2" class="collapsible">Posiadane licencje</button>
+										
+										<div class="content2" id="powieksz6">
+											<table class="table-goods">
+												<tr>
+													<td style="max-width: 7vw">Prawo jazdy kat. A:</td><td><span id="katA">Nie</span></td><td style="text-align: center; font-size: 22px"><span class="addLicense"><i class="fas fa-plus-square" style="color: green"></i></span> <span class="removeLicense"><i class="fas fa-minus-square" style="color: red"></i></span></td>
+												</tr>
+													
+												<tr>
+													<td style="max-width: 7vw">Prawo jazdy kat. B:</td><td><span id="katB">Nie</span></td><td style="text-align: center; font-size: 22px"><span class="addLicense"><i class="fas fa-plus-square" style="color: green"></i></span> <span class="removeLicense"><i class="fas fa-minus-square" style="color: red"></i></span></td>
+												</tr>
+														
+												<tr>
+													<td style="max-width: 7	vw">Prawo jazdy kat. C:</td><td><span id="katC">Nie</span></td><td style="text-align: center; font-size: 22px"><span class="addLicense"><i class="fas fa-plus-square" style="color: green"></i></span> <span class="removeLicense"><i class="fas fa-minus-square" style="color: red"></i></span></td>
+												</tr>
+													
+												<tr>
+													<td style="max-width: 7vw">Licencja na broń krótką:</td><td><span id="gunShort">Nie</span></td><td style="text-align: center; font-size: 22px"><span class="addLicense"><i class="fas fa-plus-square" style="color: green"></i></span> <span class="removeLicense"><i class="fas fa-minus-square" style="color: red"></i></span></td>
+												</tr>
+							
+												<tr>
+													<td style="max-width: 7vw">Licencja na broń długą:</td><td><span id="gunLong">Nie</span></td><td style="text-align: center; font-size: 22px"><span class="addLicense"><i class="fas fa-plus-square" style="color: green"></i></span> <span class="removeLicense"><i class="fas fa-minus-square" style="color: red"></i></span></td>						
+												</tr>
+											</table>
+										</div>
+									</div>
+		
+									<div class="suspect-goods">
+										<button id="collapsible2" class="collapsible">Posiadane pojazdy</button>
+											
+										<div class="content2" id="powieksz5">
+											<table class="table-goods" id="kartoteka-cars">
+												<tr>
+													<td style="text-align: center; background-color: rgba(170, 170, 170, 0.8); font-size: 0.9vw">Model:</td><td style="text-align: center; background-color: rgba(170, 170, 170, 0.8);font-size: 0.9vw">Nr rej.:</td>
+												</tr>
+											</table>
+										</div>
+									</div>
+								</div>
+							
+								<div class="kartoteka-containter2" style="display:none">
+		
+									<button id="collapsible3" class="collapsible" style="margin-top: 0">POSZUKIWANIA</button>
+										
+									<div class="content3" id="powieksz">
+										<table class="table-goods">
+											<tr>
+												<td style="text-align: center; background-color: rgba(170, 170, 170, 0.8); font-size: 1vw">Powód</td><td width="10%" style="text-align: center; background-color: rgba(170, 170, 170, 0.8); font-size: 1vw">Pojazd</td>
+												<td width="15%" style="text-align: center; background-color: rgba(170, 170, 170, 0.8); font-size: 1vw">Podpis FP</td><td width="20%" style="text-align: center; background-color: rgba(170, 170, 170, 0.8); font-size: 1vw">Data</td>
+												<td width="10%" style="text-align: center; background-color: rgba(170, 170, 170, 0.8); font-size: 1vw">Edycja</td>
+											</tr>		
+										</table>
+										
+										
+										<table class="table-goods"  id="kartoteka-poszukiwania">
+										</table>
+										
+										
+										<div style="background-color: rgba(200, 200, 200, 0.8); width: 100%; text-align: center; font-size: 22px; padding: 3px"><button id="myBtn2" style="border-color:transparent;background-color:transparent; outline: none"><i class="fas fa-plus-square" style="color: green"></i></button></div>	
+									</div>
+		
+									<button id="collapsible3" class="collapsible">MANDATY</button>
+										
+									<div class="content3" id="powieksz4">
+										<table class="table-goods">
+											<tr>
+												<td style="text-align: center; background-color: rgba(170, 170, 170, 0.8); font-size: 1vw">Powód</td><td width="15%" style="text-align: center; background-color: rgba(170, 170, 170, 0.8); font-size: 1vw">Grzywna</td>
+												<td width="15%" style="text-align: center; background-color: rgba(170, 170, 170, 0.8); font-size: 1vw">Więzienie</td><td width="15%" style="text-align: center; background-color: rgba(170, 170, 170, 0.8); font-size: 1vw">Podpis FP	</td>
+												<td width="15%" style="text-align: center; background-color: rgba(170, 170, 170, 0.8); font-size: 1vw">Data</td><td width="10%" style="text-align: center; background-color: rgba(170, 170, 170, 0.8); font-size: 1vw">Edycja</td>
+											</tr>
+												
+										</table>
+										<table class="table-goods"  id="kartoteka-mandaty">	
+										</table>
+									</div>
+		
+									<button id="collapsible3" class="collapsible">NOTATKI</button>
+		
+									<div class="content3" id="powieksz2">
+										<table class="table-goods">
+											<tr>
+												<td style="text-align: center; background-color: rgba(170, 170, 170, 0.8); font-size: 1vw">Treść</td><td width="30%" style="text-align: center; background-color: rgba(170, 170, 170, 0.8); font-size: 1vw">Podpis FP	</td>
+												<td width="20%" style="text-align: center; background-color: rgba(170, 170, 170, 0.8); font-size: 1vw">Data</td><td width="10%" style="text-align: center; background-color: rgba(170, 170, 170, 0.8); font-size: 1vw">Edycja</td>
+											</tr>
+												
+										</table>
+										<table class="table-goods"  id="kartoteka-notatki">	
+										</table>
+									
+										<div style="background-color: rgba(200, 200, 200, 0.8); width: 100%; text-align: center; font-size: 22px; padding: 3px"><button id="myBtn3" style="border-color:transparent;background-color:transparent; outline: none"><i class="fas fa-plus-square" style="color: green"></i></button></div>
+									
+									</div>
+									
+								</div>		
+							</div>
+		
+							<div id="myModal2" class="modal2">
+								<div class="modal-content2">
+									<span id="close2" class="close">&times;</span>
+									<span id="title">Poszukiwania - Kartoteka</span>
+			
+									<hr class="linia">	
+									
+									<span id="title2">Powód:</span></br>
+									<textarea id="reasonPoszukiwania" style="min-width:100%;max-width:100%;max-height:40%;resize: none; outline: none;margin-bottom: 1vw" rows='3' placeholder='Wpisz powód'></textarea>
+								
+			
+									<span id="title2">Pojazd:</span></br>
+									<input type="text" style="outline: none	" id="carPoszukiwania">
+			
+									<hr class="linia">	
+									
+									
+									
+									<span id="close-btn2" class="close-btn">ZAMKNIJ</span>
+									<span class="add-popup"	id="add_Kartoteka">DODAJ</span>
+								</div>
+							</div> 
+			
+							<div id="myModal3" class="modal2">
+								<div class="modal-content2">
+									<span id="close3" class="close">&times;</span>
+									<span id="title">Notatki - Kartoteka</span>
+			
+									<hr class="linia">	
+									
+									<span id="title2">Treść:</span></br>
+									<textarea id="noteNotatka" style="min-width:100%;max-width:100%;max-height:40%;resize: none; outline: none" rows='5' placeholder='Wpisz treść'></textarea>
+		
+									<hr class="linia">	
+									</br>
+									
+									<span id="close-btn3" class="close-btn">ZAMKNIJ</span>
+									<span class="add-popup" id="add_Notatka">DODAJ</span>
+								</div>
+							</div> 
+		
+							<div id="myModal6" class="modal2">
+								<div class="modal-content6">
+									<span id="close6" class="close">&times;</span>
+									<span id="title">Czy na pewno zmienić zdjęcie?</span>
+			
+									<hr class="linia">	
+									
+									
+									<div class="col-1-2">
+											<div id="upload-demo"></div>
+									</div>
+										
+
+									<hr class="linia">
+									<span id="close-btn6" class="close-btn" style="margin-bottom: 1vw">ANULUJ</span>
+									<span class="add-popup" id="avatar-confirm-btn" style="margin-bottom: 1vw">POTWIERDŹ</span>
+									</br>
+								</div>
+							</div>
+							
+						</div>
+							<script>
+								$(document).on('click', "span#avatar-confirm-btn" ,function() {
+									$('#myModal6').fadeOut(500);	
+									
+								});	
+							</script>
+
+					<!-- ##########SPRAWDŹ POJAZD########## -->
+
+						<div class="container" id="wrapper-checkvehicle" style="width: 94.6%; display:none">
+
+							<button class="exit-btn" id="exit_checkvehicle"><span>COFNIJ </span></button>
+
+							<div id="checkvehicleMenu" >
+								<div class="inputMenu-container">
+								
+									<div class="inputMenu-div" style="margin-top: 0">
+										<input id="checkPlate" type="text" class="jail-input"  placeholder="Wpisz rejestracje samochodu">
+									</div>
+
+									<div id="vehicledata" >
+										<div style="margin-bottom: 2vw; margin-top: 1vw">
+											<span style="float: left; font-weight: bold">Numer rejestracyjny:</span></br>
+											<span id="vehiclePlate" style="float: left;"></span>
+										</div>
+
+										<div style="margin-bottom: 2vw">
+											<span style="float: left; font-weight: bold;">Właściciel:</span></br>
+											<span id="vehicleOwner" style="float: left"></span>
+										</div>
+										
+										<div style="margin-bottom: 2vw">
+											<span style="float: left; font-weight: bold;">Model:</span></br>
+											<span id="vehicleModel" style="float: left"></span>
+										</div>
+									</div>
+			
+									<div class="inputMenu-div">
+										<button id="search-vehicle" class="jail-btn">Wyszukaj</button>
+									</div>
+									
+								</div>	
+							</div>  
+						</div>
+
+					<!-- ##########NOTATNIK########## -->
+						<div class="container" id="wrapper-notepad" style="width: 94.6%; display:none">
+							<button class="exit-btn" id="exit_notepad" style="z-index: 1;"><span>COFNIJ </span></button>
+							<div class="notepad" id="style-1">
+								<div class="notepad-containter">
+									<textarea id="notepad-textarea"  placeholder="Twoje notatki" maxlength="3500" resiza></textarea>
+								</div>
+							</div>
+						</div>
+
+					<!-- ##########OGŁOSZENIA########## -->
+						<div class="container" id="wrapper-announcements" style="width: 94.6%; display:none">
+							<div class="announcements" id="style-1">
+								<button class="exit-btn" id="exit_announcements"><span>COFNIJ </span></button>
+				
+								<div class="announcements-containter" id="powieksz3">
+				
+									<div id="announcements-logo">OGŁOSZENIA</div>
+									
+									<table class="table-goods" style="font-size: 20px" id="table-ogloszenia-header">
+									</table>
+									
+									<table class="table-goods" style="font-size: 16px; table-layout: fixed; word-wrap: break-word" id="table-ogloszenia">
+									</table>
+				
+								</div>
+							</div>
+							<!--modal-->
+							<div id="myModal4" class="modal2">
+								<div class="modal-content2">
+									<span id="close4" class="close">&times;</span>
+									<span id="title">Ogłoszenia</span>
+				
+									<hr class="linia">	
+									
+									<span id="title2">Treść:</span></br>
+									<textarea id="AnnouncementText" style="min-width:100%;max-width:100%;max-height:40%;resize: none; outline: none" rows='5' placeholder='Wpisz treść'></textarea>
+									
+									<hr class="linia">	
+									</br>
+									
+									<span id="close-btn4" class="close-btn">ZAMKNIJ</span>
+									<span class="add-popup" id="add_Announcement">DODAJ</span>
+								</div>
+							</div> 
+						</div>
+
+						<!-- ##########RAPORTY########## -->
+
+						<div class="container" id="wrapper-reports" style="width: 94.6%; display:none">	
+							<button class="exit-btn" id="exit_reports" style="z-index: 1;"><span>COFNIJ </span></button>
+								<button id="raportChange" style="z-index: 1;">Archiwum</button>
+							<div class="reports" id="style-1">
+								
+				
+								<div class="reports-containter" id="powieksz7">
+									<div id="raporty-aktualne">
+										<div id="reports-logo">RAPORTY</div>
+										
+										<table class="table-goods" style="font-size: 20px" id="table-reports-header">
+											<tr><td style="text-align: center; background-color: rgba(170, 170, 170, 0.8); font-size: 1vw">Treść</td><td width="30%" style="text-align: center; background-color: rgba(170, 170, 170, 0.8); font-size: 1vw">Podpis FP</td><td width="20%" style="text-align: center; background-color: rgba(170, 170, 170, 0.8);font-size: 1vw">Data</td><td width="10%" style="text-align: center; background-color: rgba(170, 170, 170, 0.8);font-size: 1vw">Status</td></tr>
+										</table>
+										
+										<table class="table-goods" style="font-size: 16px; table-layout: fixed; word-wrap: break-word" id="table-reports">
+										</table>
+									</div>
+									
+									<div id="raporty-archiwum" style="display:none">
+										<div id="reports-logo">ARCHIWUM</div>
+										
+										<table class="table-goods" style="font-size: 20px" id="table-reports-header-archiwum">
+											<tr><td style="text-align: center; background-color: rgba(170, 170, 170, 0.8);font-size: 1vw">Treść</td><td width="30%" style="text-align: center; background-color: rgba(170, 170, 170, 0.8);font-size: 1vw">Podpis FP</td><td width="20%" style="text-align: center; background-color: rgba(170, 170, 170, 0.8);font-size: 1vw">Data</td><td width="10%" style="text-align: center; background-color: rgba(170, 170, 170, 0.8);font-size: 1vw">Status</td></tr>
+										</table>
+										
+										<table class="table-goods" style="font-size: 16px; table-layout: fixed; word-wrap: break-word" id="table-reports-archiwum">
+										</table>
+									</div>
+				
+								</div>
+							</div>
+							<!--modal-->
+							<div id="myModal5" class="modal2">
+								<div class="modal-content2">
+									<span id="close5" class="close">&times;</span>
+									<span id="title">Raporty</span>
+				
+									<hr class="linia">    
+									
+									<span id="title2">Treść:</span></br>
+									<textarea id="ReportText" style="min-width:100%;max-width:100%;max-height:40%;resize: none; outline: none" rows='5' placeholder='Wpisz treść'></textarea>
+									
+									<hr class="linia">    
+									</br>
+									
+									<span id="close-btn5" class="close-btn">ZAMKNIJ</span>
+									<span class="add-popup" id="add_Report">DODAJ</span>
+								</div>
+							</div> 
+						</div>
+
+						<!-- ##########DISPATCH########## -->
+
+						<div class="container" id="wrapper-dispatch" style="width: 94.6%; display:none">
+							<button class="exit-btn" id="exit_dispatch" style="z-index: 1;"><span>COFNIJ </span></button>
+							<div id="dispatch">
+								<button class="exit-btn" id="exit_dispatch"><span>COFNIJ </span></button>
+								<!--<iframe src="https://docs.google.com/spreadsheets/d/1XPzdkOuABCRNhMtlw9_fklmlpFdEsswsK9hemUJnXLM/edit?fbclid=IwAR1Ex-Ag7TtSe5Bb8vFkVl8hvoVQem22teOAOFM52Gojur2XxeA4U8Jzps8#gid=1539754775" id="dispatch-iframe" ></iframe>-->
+							</div>
+						</div>
+
+
+				</div>
+			</div>	
+		</div>			
+	</div>
+</body>
+	
+		
+    <script type="text/javascript" src="scripts/main.js"></script>
+	
+	
+	<!-- COLLAPSIBLE SCRIPT -->  
+
+	<script>
+		$(document).on('click', "button.collapsible" ,function() {
+			this.classList.toggle("active");
+			var content = this.nextElementSibling;
+			
+			if (content.style.maxHeight){
+				content.style.maxHeight = null;
+			} else {
+				content.style.maxHeight = content.scrollHeight + "px";
+			} 
+
+		});	
+	</script>
+	
+	
+	
+	<!-- POWIEKSZANIE --> 
+	<script>	
+		function powiekszenie(id){
+			var toResize = document.getElementById(id);	
+			toResize.style.maxHeight = toResize.scrollHeight + "px";
+		}	
+	</script>
+	
+	<!-- ZMNIEJSZANIE --> 
+	<script>	
+		function zmniejszanie(){
+			document.getElementById("powieksz").style.maxHeight = null;
+			document.getElementById("powieksz2").style.maxHeight = null;
+			document.getElementById("powieksz4").style.maxHeight = null;
+			document.getElementById("powieksz5").style.maxHeight = null;
+			document.getElementById("powieksz6").style.maxHeight = null;
+		}	
+	</script>
+
+	<!-- LIMITS -->  
+
+	<script type="text/javascript">
+		
+		$(document).ready(function(){
+			// -- MANDAT GRZYWNA(USTAWIANE W config.lua)
+			$('#mandat_grzywna').change(function(){
+				var id = this.getAttribute('id');
+				var value = document.getElementById(id).value;
+				if (value>maxTicket)
+					document.getElementById(id).value = maxTicket;
+			}).change();
+			
+			// -- WIĘZIENIE GRZYWNA(USTAWIANE W config.lua)
+			$('#jail_grzywna').change(function(){
+				var id = this.getAttribute('id');
+				var value = document.getElementById(id).value;
+				if (value>maxTicket)
+					document.getElementById(id).value = maxTicket;
+			}).change();
+			
+			// -- WIĘZIENIE CZAS(USTAWIANE W config.lua)
+			$('#jail_time').change(function(){
+				var id = this.getAttribute('id');
+				var value = document.getElementById(id).value;
+				if (value>maxJailTime)
+					document.getElementById(id).value = maxJailTime;
+			}).change();
+			
+			// -- WARTOŚCI UJEMNE
+			$('input[type="number"]').change(function(){
+				var id = this.getAttribute('id');
+				var value = document.getElementById(id).value;
+				if (value<0)
+					document.getElementById(id).value = 0;
+			}).change();
+			
+			// -- ILE RAZY MOŻE BYĆ NALICZONA KARA W TARYFIKATORZE (USTAWIANE W config.lua)		
+			$(document).on('change', "input.input-value" ,function() {
+				var id = this.getAttribute('id');
+				var value = document.getElementById(id).value;
+				if (value>maxTariff){
+					document.getElementById(id).value = maxTariff;
+				} else if (value < 0){
+					document.getElementById(id).value = 0;
+				}
+			});
+		});
+	</script>
+	
+	<!-- COPYING REASON SCRIPT -->  
+
+	<script>
+		function CopyToClipboard(id){
+			var r = document.createRange();
+			r.selectNode(document.getElementById(id));
+			window.getSelection().removeAllRanges();
+			window.getSelection().addRange(r);
+			document.execCommand('copy');
+			window.getSelection().removeAllRanges();
+		}
+	</script>
+
+	<!-- CHECKING VEHICLE -->
+
+	<script>
+		function checkVehicle(){
+			var vehiclePlate = document.getElementById("checkPlate").value;
+			vehiclePlate = vehiclePlate.toUpperCase();
+			document.getElementById('vehiclePlate').innerHTML = vehiclePlate;
+			$('#vehicledata').fadeIn(250);
+			$('#checkvehicleMenu').css('height', '32%');
+		}
+	</script>
+	
+
+	<!-- USUWANIE -->  
+	
+	<script type="text/javascript">
+	
+		//Poszukiwani
+		$(document).on('click', "span.removeRecordP" ,function() {
+			var whichtr = $(this).closest("tr"); 
+			data = whichtr.find("td:nth-child(4)").text();
+			
+			alertify.confirm("Czy na pewno usunąć?",function(e){
+				if(e) { 
+					whichtr.remove();
+					$.post('http://glibcat_mdt/removePoszukiwania', JSON.stringify({data: data, id: identifier_kartoteka, target: $('#kartotekaFirstName').text() + " " + $('#kartotekaLastName').text(), fp: $('#userName').text()}));
+				} 
+			}).set('movable', false);
+			
+		});	
+		
+		//Historia
+		$(document).on('click', "span.removeRecordK" ,function() {
+			var whichtr = $(this).closest("tr"); 
+			data = whichtr.find("td:nth-child(5)").text();
+			var reason = whichtr.find("td:nth-child(1)").text();
+			var fine = whichtr.find("td:nth-child(2)").text();
+			var jail = whichtr.find("td:nth-child(3)").text();
+			
+			alertify.confirm("Czy na pewno usunąć?",function(e){
+				if(e) { 
+					whichtr.remove();
+					$.post('http://glibcat_mdt/removeKartoteka', JSON.stringify({data: data, id: identifier_kartoteka, fp: $('#userName').text(), target: $('#kartotekaFirstName').text() + " " + $('#kartotekaLastName').text(), reason: reason, fine: fine, jail: jail}));
+				} 
+			}).set('movable', false);
+			
+		});	
+		
+		//Notatki
+		$(document).on('click', "span.removeRecordN" ,function() {
+			var whichtr = $(this).closest("tr"); 
+			data = whichtr.find("td:nth-child(3)").text();
+			var text = whichtr.find("td:nth-child(1)").text();
+			
+			alertify.confirm("Czy na pewno usunąć?",function(e){
+				if(e) { 
+					whichtr.remove();
+					$.post('http://glibcat_mdt/removeKartotekaNotatka', JSON.stringify({data: data, id: identifier_kartoteka, fp: $('#userName').text(), target: $('#kartotekaFirstName').text() + " " + $('#kartotekaLastName').text(), text:text}));
+				} 
+			}).set('movable', false);
+			
+		});
+		
+		//Ogłoszenia
+		$(document).on('click', "span.removeRecordO" ,function() {
+			var whichtr = $(this).closest("tr"); 
+			data = whichtr.find("td:nth-child(3)").text();
+			var text = whichtr.find("td:nth-child(1)").text();
+			
+			alertify.confirm("Czy na pewno usunąć?",function(e){
+				if(e) { 
+					whichtr.remove();
+					$.post('http://glibcat_mdt/removeOgloszenie', JSON.stringify({data: data, fp: $('#userName').text(), text:text}));
+				} 
+			}).set('movable', false);
+			
+		});
+		
+		//Raporty
+		$(document).on('click', "span.removeRecordR" ,function() {
+			var whichtr = $(this).closest("tr"); 
+			data = whichtr.find("td:nth-child(3)").text();
+			var text = whichtr.find("td:nth-child(1)").text();	
+
+			alertify.confirm("Czy na pewno usunąć?",function(e){
+				if(e) { 
+					whichtr.remove();
+					$('#table-reports-archiwum').prepend(whichtr);
+					whichtr.find("td:nth-child(4)").html('<i class="fas fa-check-square" style="color: green; font-size:1vw"></i>');
+					$.post('http://glibcat_mdt/raportUsun', JSON.stringify({data: data, fp: $('#userName').text(), text:text}));
+					raportsAmount = raportsAmount - 1;
+				} 
+			}).set('movable', false);
+			
+		});
+	</script>
+	
+	<!-- LICENCJE -->  
+	
+	<script type="text/javascript">
+	//Dodawanie
+	$(document).on('click', "span.addLicense" ,function() {
+		var whichtr = $(this).closest("tr"); 
+		data = whichtr.find("td:nth-child(2)").text();
+		
+		if(jobGrade_user <= minJobGrade_user){
+			alertify.error('Nie masz uprawnien').dismissOthers();
+		} else {
+			if(data == "Tak"){
+				alertify.error('Obywatel posiada już licencje').dismissOthers();
+			} else {
+				var licencja = whichtr.find("td:nth-child(1)").text();
+				name = checkLicenseName(licencja);
+				alertify.success('Dodano licencje').dismissOthers();
+				whichtr.find("td:nth-child(2)").html("Tak");
+				$.post('http://glibcat_mdt/licencjaDodaj', JSON.stringify({identifier: identifier_kartoteka, licencja: name, fp: $('#userName').text(), target: $('#kartotekaFirstName').text() + " " + $('#kartotekaLastName').text()}));
+
+			}
+		}
+	});
+	
+	//Usuwanie
+	$(document).on('click', "span.removeLicense" ,function() {
+		var whichtr = $(this).closest("tr"); 
+		data = whichtr.find("td:nth-child(2)").text();
+		if(jobGrade_user <= minJobGrade_user){
+			alertify.error('Nie masz uprawnień').dismissOthers();
+		} else {
+			if(data == "Nie"){
+				alertify.error('Obywatel nie posiada licencji').dismissOthers();
+			} else {
+				var licencja = whichtr.find("td:nth-child(1)").text();
+				name = checkLicenseName(licencja);
+				alertify.success('Usunięto licencje').dismissOthers();
+				whichtr.find("td:nth-child(2)").html("Nie");
+				$.post('http://glibcat_mdt/licencjaUsun', JSON.stringify({identifier: identifier_kartoteka, licencja: name, fp: $('#userName').text(), target: $('#kartotekaFirstName').text() + " " + $('#kartotekaLastName').text()}));
+
+			}
+		}
+		
+	});
+	
+	function checkLicenseName(licencja){
+	var name = "";
+		if(licencja == "Prawo jazdy kat. A:" ){
+			name = "drive_bike";
+			return name;
+		} else if (licencja == "Prawo jazdy kat. B:" ){
+			name = "drive";
+			return name;
+		} else if (licencja == "Prawo jazdy kat. C:" ){
+			name = "drive_truck";
+			return name;
+		} else if (licencja == "Licencja na broń krótką:" ){
+			name = "weapon";
+			return name;
+		} else if (licencja == "Licencja na broń długą:"){
+			name = "weapon_long";
+			return name;
+		}
+	}
+	</script>
+	
+	<script type="text/javascript">
+	
+	
+	// --- Taryfikator ---
+	
+	$("#open_taryfikator").click(function(){
+		$('#mySidenav').css('width', '0');
+		$('#btn-group').css('display', 'none');
+
+		
+		if (loadedTariff == false) {
+			
+			tariff();
+			loadedTariff = true;
+		}
+		
+		$('#wrapper').fadeIn(1000);
+	});
+	
+	$("#exit_taryfikator").click(function(){
+		$('#wrapper').fadeOut(500);
+		$('#btn-group').fadeIn(500);
+	});
+	
+	$("#next-btn").click(function(){
+		
+		var ticket = document.getElementById("reason").innerText;
+
+		$('.wrapper').fadeOut(500);
+		$('#mySidenav').css('width', '0');
+		$('.btn-group').css('display', 'none');
+
+		if(document.getElementById("jail").innerHTML == "Brak kary wiezienia"){
+			$('#mandatwrp').fadeIn(500);
+			document.getElementById("mandat_reason").value = ticket;
+		} else {
+			$('#jailwrp').fadeIn(500);
+			document.getElementById("jail_reason").value = ticket;
+		}
+		
+		$('#myModal').fadeOut(250);
+		
+	});
+
+	// --- Kartoteka ---
+	
+	$("#open_kartoteka").click(function(){
+		$('#mySidenav').css('width', '0');
+		$('#btn-group').css('display', 'none');
+		$('#wrapper2').fadeIn(1000);
+	});
+	
+	$("#search-suspect").click(function(){
+		var toSearch = document.getElementById("suspect_input").value;
+		var suspect_name = toSearch.split(" ");
+		alertify.notify('Sprawdzam bazę danych', 'warning', 2);
+		
+		var that = $(this);
+		that.attr('disabled', true);
+		var timer = setTimeout(function(){
+			that.attr('disabled', false);
+		}, 2200);
+		
+		$.post('http://glibcat_mdt/sprawdz', JSON.stringify({kartotekafirst: suspect_name[0], kartotekalast: suspect_name[1]}));
+	});
+	
+	$("#exit_kartoteka").click(function(){
+		$('#wrapper2').fadeOut(500);
+		document.getElementById("suspect_input").value = "";
+		$('.kartotekaMenu').css('display', 'block');
+		$('.kartoteka-containter').css('display', 'none');
+		$('.kartoteka-containter2').css('display', 'none');
+
+		document.getElementById("kartoteka-mandaty").innerHTML = "";
+		document.getElementById("kartoteka-notatki").innerHTML = "";
+		document.getElementById("kartoteka-poszukiwania").innerHTML = "";
+		zmniejszanie();
+		
+		$('#btn-group').fadeIn(500);
+	});
+		//dodawanie poszukiwanego	
+		$("#add_Kartoteka").click(function(){
+			$('#myModal2').fadeOut(250);
+			var addReason = $("#reasonPoszukiwania").val();
+			var car = $("#carPoszukiwania").val();
+			
+			if(addReason == "" || car == ""){
+				alertify.error('Wprowadz dane!');
+			} else {
+				var name = $('#userName').text();
+				var date = new Date();
+				var data = changeFormat(date);
+				$('#kartoteka-poszukiwania').prepend('<tr><td>' + addReason + '</td><td width="10%" style="text-align: center">' + car + '</td><td width="15%" style="text-align: center">' + name + '</td><td width="20%" style="text-align: center">' + data + '</td><td width="10%" style="text-align: center; font-size: 22px"><span class="removeRecordP"><i class="fas fa-window-close" style="color: red"></i></span></td></tr>');
+				$.post('http://glibcat_mdt/poszukiwaniaDodaj', JSON.stringify({identifier: identifier_kartoteka, policjant: name, powod: addReason, pojazd: car, data: data,  target: $('#kartotekaFirstName').text() + " " + $('#kartotekaLastName').text()}));
+			
+				powiekszenie("powieksz");
+			}
+		});
+		
+		//dodawanie notatki
+		$("#add_Notatka").click(function(){
+			$('#myModal3').fadeOut(250);
+			var addNote = $("#noteNotatka").val();
+
+			if(addNote == ""){
+				alertify.error('Wprowadz dane!');
+			} else {
+				var name = $('#userName').text();
+				var date = new Date();
+				var data = changeFormat(date);
+				$('#kartoteka-notatki').prepend('<tr><td >' + addNote + '</td><td width="30%" style="text-align: center">' + name + '</td><td width="20%" style="text-align: center">' + data + '</td><td width="10%" style="text-align: center; font-size: 22px"><span class="removeRecordN"><i class="fas fa-window-close" style="color: red"></i></span></td></tr>');
+				$.post('http://glibcat_mdt/kartotekaNotatkaDodaj', JSON.stringify({identifier: identifier_kartoteka, policjant: name, notatka: addNote, data: data, target: $('#kartotekaFirstName').text() + " " + $('#kartotekaLastName').text()}));
+			
+				powiekszenie("powieksz2");
+			}
+		});
+	
+	// --- Ogloszenia ---
+	
+	$("#open_announcements").click(function(){
+		$('#mySidenav').css('width', '0');
+		$('#btn-group').css('display', 'none');
+		
+		if (loadedAnnouncements == false) {
+			document.getElementById("table-ogloszenia").innerHTML = "";
+			
+			if(jobGrade_user >= ogloszeniaJobGrade_user){
+				$('#table-ogloszenia-header').prepend('<tr><td style="text-align: center; background-color: rgba(170, 170, 170, 0.8); font-size: 1vw">'+"Ogłoszenie"+'</td><td width="30%" style="text-align: center; background-color: rgba(170, 170, 170, 0.8); font-size: 1vw">'+"Podpis FP"+'</td><td width="20%" style="text-align: center; background-color: rgba(170, 170, 170, 0.8); font-size: 1vw">'+"Data"+'</td><td width="10%" style="text-align: center; background-color: rgba(170, 170, 170, 0.8); font-size: 1vw">'+"Edycja"+'</td></tr>');
+				$('#table-ogloszenia').append('<tr><td colspan="4" style = "padding: 0 0"> <div style="background-color: rgba(170, 170, 170, 0.8); width: 100%; height:100%; text-align: center; font-size: 22px; padding: 3px; display:flex; justify-content: center; align-content: center;"> <button id="myBtn4" style="border-color:transparent;background-color:transparent; outline: none"><i class="fas fa-plus-square" style="color: green"></i></button></div></td></tr>');
+				
+				var modal2 = document.getElementById("myModal4");
+				var btn2 = document.getElementById("myBtn4");
+				var span3 = $("#close4")[0];
+				var span4 = $("#close-btn4")[0];
+				
+				btn2.onclick = function() {
+				  $('#myModal4').fadeIn(500);
+				}
+					
+				span3.onclick = function() {
+				  $('#myModal4').fadeOut(500);
+				}
+					
+				span4.onclick = function() {
+					$('#myModal4').fadeOut(500);
+				  }
+					
+				window.onclick = function(event) {
+					if (event.target == modal2) {
+						$('#myModal4').fadeOut(500);
+					}
+				}
+			}else{
+				$('#table-ogloszenia-header').prepend('<tr><td style="text-align: center; background-color: rgba(170, 170, 170, 0.8); font-size: 1vw">'+"Ogłoszenie"+'</td><td width="30%" style="text-align: center; background-color: rgba(170, 170, 170, 0.8); font-size: 1vw">'+"Podpis FP"+'</td><td width="20%" style="text-align: center; background-color: rgba(170, 170, 170, 0.8); font-size: 1vw">'+"Data"+'</td></tr>');			
+			}		
+			
+			$.post('http://glibcat_mdt/openAnnouncements', JSON.stringify({}));
+			loadedAnnouncements = true;
+		}
+		
+		$('#wrapper-announcements').fadeIn(1000);
+		$('#pendingAnnouncement').css('display', 'none');
+		wyswietloneOgloszenie = true;
+	});
+
+	$("#exit_announcements").click(function(){
+		$('#wrapper-announcements').fadeOut(500);
+		$('#btn-group').fadeIn(500);
+	});
+	
+	$("#add_Announcement").click(function(){
+		$('#myModal4').fadeOut(250);
+		var addAnnouncement = $("#AnnouncementText").val();
+		
+		if(addAnnouncement == ""){
+			alertify.error('Wprowadz tresc!');
+		} else {
+			var name = $('#userName').text();
+			var date = new Date();
+			var data = changeFormat(date);
+			$.post('http://glibcat_mdt/ogloszenieDodaj', JSON.stringify({policjant: name, announcement: addAnnouncement, data: data}));
+			
+			setTimeout(function(){ 
+				powiekszenie("powieksz3");
+			}, 200);
+		}	
+	});
+
+	// --- Raporty ---
+	
+	$("#open_reports").click(function(){
+		$('#mySidenav').css('width', '0');
+		$('#btn-group').css('display', 'none');
+ 
+		if (loadedRaports == false) {
+			document.getElementById("table-reports").innerHTML = "";
+            document.getElementById("table-reports-archiwum").innerHTML = "";
+			$('#table-reports').append('<tr><td colspan="4" style = "padding: 0 0"> <div style="background-color: rgba(170, 170, 170, 0.8); width: 100%; height:100%; text-align: center; font-size: 22px; padding: 3px; display:flex; justify-content: center; align-content: center;"> <button id="myBtn5" style="border-color:transparent;background-color:transparent; outline: none"><i class="fas fa-plus-square" style="color: green"></i></button></div></td></tr>');
+			
+			if(jobGrade_user >= raportJobGrade){
+				$.post('http://glibcat_mdt/openAllRaports', JSON.stringify({}));
+			} else {
+				$.post('http://glibcat_mdt/openRaports', JSON.stringify({identifier: identifier_user}));
+			}	
+			
+			raportsAmount = 0;
+			loadedRaports = true;
+		}
+		
+ 		var modal22 = document.getElementById("myModal5");
+		var btn22 = document.getElementById("myBtn5");
+		var span32 = $("#close5")[0];
+		var span42 = $("#close-btn5")[0];
+						
+		btn22.onclick = function() {
+			 $('#myModal5').fadeIn(500);
+		}
+						
+		span32.onclick = function() {
+			$('#myModal5').fadeOut(500);
+		}
+						
+		span42.onclick = function() {
+			$('#myModal5').fadeOut(500);
+		}
+						
+		window.onclick = function(event) {
+			if (event.target == modal2) {
+				$('#myModal5').fadeOut(500);
+			}
+		}
+		$('#wrapper-reports').fadeIn(1000);
+	});
+ 
+	$("#exit_reports").click(function(){
+		if (raportsAmount == 0 ){
+			$('#pendingReport').css('display', 'none');
+		}
+		$('#wrapper-reports').fadeOut(500);
+		$('#btn-group').fadeIn(500);
+	});
+	
+	$("#raportChange").click(function(){
+		if($("#raportChange").text() == "Archiwum"){
+			$("#raportChange").text("Aktualne");
+			$('#raporty-aktualne').fadeOut(500);
+			setTimeout(function(){ 
+				$('#raporty-archiwum').fadeIn(500);
+			}, 500);
+		}else{
+			$("#raportChange").text("Archiwum");
+			$('#raporty-archiwum').fadeOut(500);
+			setTimeout(function(){ 
+				$('#raporty-aktualne').fadeIn(500);
+			}, 500);
+		}
+	});
+ 
+	$("#add_Report").click(function(){
+		$('#myModal5').fadeOut(250);
+		var addReport = $("#ReportText").val();
+ 
+		if(addReport == ""){
+			alertify.error('Wprowadz tresc!');
+		} else {
+			var name = $('#userName').text();
+			var date = new Date();
+			var data = changeFormat(date);
+			
+			if(jobGrade_user < raportJobGrade){
+				$('#table-reports').prepend('<tr><td>' + addReport + '</td><td width="30%" style="text-align: center">' + name + '</td><td width="20%" style="text-align: center">' + data + '</td><td width="10%" style="text-align: center"><span><i class="fas fa-window-close" style="color: red; font-size:1vw"></i></span></td></tr>');
+			} 
+			
+			$.post('http://glibcat_mdt/raportDodaj', JSON.stringify({identifier: identifier_user, policjant: name, raport: addReport, data: data}));
+ 
+			setTimeout(function(){ 
+				powiekszenie("powieksz7");
+			}, 200);
+		}	
+	}); 
+
+
+	// --- Dispatch ---
+
+	$("#open_dispatch").click(function(){
+		$('#mySidenav').css('width', '0');
+		$('#btn-group').css('display', 'none');
+		if(loadedDispatch == false){
+			loadedDispatch = true;
+			$('#dispatch').prepend('<iframe src="' + dispatchLink +'" id="dispatch-iframe" ></iframe>');
+		}
+		$('#wrapper-dispatch').fadeIn(1000);
+	});
+
+	$("#exit_dispatch").click(function(){
+		$('#wrapper-dispatch').fadeOut(500);
+		$('#btn-group').fadeIn(500);
+	});
+
+
+	// --- Notatnik ---
+
+	$("#open_notepad").click(function(){
+		$.post('http://glibcat_mdt/openNotepad', JSON.stringify({identifier: identifier_user}));
+		$('#mySidenav').css('width', '0');
+		$('#btn-group').css('display', 'none');
+		notepad_used = true;
+		$('#wrapper-notepad').fadeIn(1000);
+	});
+
+	$("#exit_notepad").click(function(){
+		$('#wrapper-notepad').fadeOut(500);
+		$('#btn-group').fadeIn(500);
+	});
+	
+	// --- Sprawdź pojazd ---
+	
+	$("#open_checkvehicle").click(function(){
+		$('#mySidenav').css('width', '0');
+		$('#btn-group').css('display', 'none');
+		$('#wrapper-checkvehicle').fadeIn(1000);
+	});
+
+	$("#exit_checkvehicle").click(function(){
+		$('#wrapper-checkvehicle').fadeOut(500);
+		$('#btn-group').fadeIn(500);
+		document.getElementById("checkPlate").value = "";
+		$('#vehicledata').css('display', 'none');
+		$('#checkvehicleMenu').css('height', '12%');
+	});
+	
+	$("#search-vehicle").click(function(){
+		var toSearch = document.getElementById("checkPlate").value;
+		alertify.notify('Sprawdzam bazę danych', 'warning', 2);
+		var that = $(this);
+		that.attr('disabled', true);
+		var timer = setTimeout(function(){
+			that.attr('disabled', false);
+		}, 2200);
+		$.post('http://glibcat_mdt/sprawdzVehicle', JSON.stringify({ plate: toSearch }));
+	});
+	
+	// --- Mandat ---
+	
+	$("#open_mandat").click(function(){
+		$('#mySidenav').css('width', '0');
+		$('#btn-group').css('display', 'none');
+		$('#mandatwrp').fadeIn(500);
+	});
+	
+	$("#exit_mandat").click(function(){
+		$('#btn-group').fadeIn(500);
+		$('#mandatwrp').fadeOut(500);
+	});
+	
+	$("#sendmandat").click(function(){
+		if($('#mandat_reason').val() == "" || $('#mandat_grzywna').val() == "" || $("#mandatPlayer :selected").val() == null){
+			alertify.error('Wprowadz dane!').dismissOthers();
+		} else {
+			var that = $(this);
+			that.attr('disabled', true);
+			var timer = setTimeout(function(){
+				that.attr('disabled', false);
+			}, 200);
+			
+			$.post('http://glibcat_mdt/mandat', JSON.stringify({targetID: $("#mandatPlayer :selected").val(), fp: $('#userName').text(), mandatreason: $("#mandat_reason").val(), mandatgrzywna: $("#mandat_grzywna").val(), name: $('#kartotekaFirstName').text() + " " + $('#kartotekaLastName').text()}));
+			$('#tablet').css('display', 'none');
+			$.post('http://glibcat_mdt/NUIFullFocusOff', JSON.stringify({}));
+		}
+	});
+	
+	// --- Więzienie ---
+	
+	$("#open_jail").click(function(){
+		$('#mySidenav').css('width', '0');
+		$('#btn-group').css('display', 'none');
+		$('#jailwrp').fadeIn(500);
+	});
+	
+	$("#exit_jail").click(function(){
+		$('#btn-group').fadeIn(500);
+		$('#jailwrp').fadeOut(500);
+	});
+	
+	$("#sendjail").click(function(){
+		if($('#jail_reason').val() == "" || $('#jail_grzywna').val() == "" || $('#jail_time').val() == "" || $("#jailPlayer :selected").val() == null){
+			alertify.error('Wprowadz dane!').dismissOthers();
+		} else {
+			var that = $(this);
+			that.attr('disabled', true);
+			var timer = setTimeout(function(){
+				that.attr('disabled', false);
+			}, 200);
+		if($('#jail_time').val() == 0){
+			$.post('http://glibcat_mdt/mandat', JSON.stringify({targetID: $("#jailPlayer :selected").val(), fp: $('#userName').text(), mandatreason: $("#jail_reason").val(), mandatgrzywna: $("#jail_grzywna").val(), name: $('#kartotekaFirstName').text() + " " + $('#kartotekaLastName').text()}));
+		} else {
+			$.post('http://glibcat_mdt/jail', JSON.stringify({targetID: $("#jailPlayer :selected").val(), fp: $('#userName').text(), jailreason: $("#jail_reason").val(), jailtime: $("#jail_time").val(), jailgrzywna: $("#jail_grzywna").val(), name: $('#kartotekaFirstName').text() + " " + $('#kartotekaLastName').text()}));
+		}
+			$('#tablet').css('display', 'none');
+			$.post('http://glibcat_mdt/NUIFullFocusOff', JSON.stringify({}));
+		}
+	});
+
+	// --- Zamykanie ---
+	
+	$("#exit_gui").click(function(){
+		if(notepad_used == true){
+			$.post('http://glibcat_mdt/saveNotepad', JSON.stringify({identifier: identifier_user, notatka: $("#notepad-textarea").val()}));
+		}
+		
+		if(noweOgloszenie == true && wyswietloneOgloszenie == true){
+			$.post('http://glibcat_mdt/ogloszenieWyswietlone', JSON.stringify({identifier: identifier_user}));
+		}
+		
+		$.post('http://glibcat_mdt/NUIFocusOff', JSON.stringify({}));
+	});
+
+	document.onkeyup = function (data) {
+		if (data.which == 27) { // Escape key
+			if(notepad_used == true){
+				$.post('http://glibcat_mdt/saveNotepad', JSON.stringify({identifier: identifier_user, notatka: $("#notepad-textarea").val()}));
+			}
+			
+			if(noweOgloszenie == true && wyswietloneOgloszenie == true){
+				$.post('http://glibcat_mdt/ogloszenieWyswietlone', JSON.stringify({identifier: identifier_user}));
+			}
+			
+			$.post('http://glibcat_mdt/NUIFocusOff', JSON.stringify({}));
+		}
+	};
+	
+	</script>
+	
+	<!--FINGERPRINT-->
+	
+	<script>
+		function loadFingerprint(){
+			if (!window.requestAnimationFrame) {
+			  window.requestAnimationFrame = function(cb) {
+				setTimeout(() => cb(new Date()), 1000 / 60);
+			  }
+			}
+			
+			const TIME_TO_FILL_FPRINT = 700; //ms
+			const TIME_TO_REMOVE_FPRINT = 250;
+		  
+			const fprintPathSelector = '.demo__fprint-path';
+			const $fprintPaths = $('.demo__fprint-path');
+			const $fprint = $('.demo__fprint');
+			const $screen = $('.demo__screen');
+			
+			let isFprintAnimationInProgress = false;
+			let isFprintAnimationOver = false;
+			let curFprintPathsOffset = -1;
+			let fprintProgressionDirection = 1;    
+			let lastRafCallTimestamp = 0;
+			let fprintTick = getPropertyIncrement(0, 1, TIME_TO_FILL_FPRINT);
+			let fprintPaths = [];
+			const fprintPathsFirstHalf = [];
+			const fprintPathsSecondHalf = [];
+			
+			for (let i = 0; i < $(fprintPathSelector).length; i++) {
+			  fprintPaths.push(new Path(fprintPathSelector, i));
+			  fprintPaths[i].offset(-1).makeVisible();
+			  if (fprintPaths[i].removesForwards)
+				fprintPathsSecondHalf.push(fprintPaths[i]);
+			  else
+				fprintPathsFirstHalf.push(fprintPaths[i]);
+			}
+			
+			function fprintFrame(timestamp) {
+			  if (timestamp - lastRafCallTimestamp >= 1000 / 65) {
+				lastRafCallTimestamp = timestamp;
+				curFprintPathsOffset += fprintTick * fprintProgressionDirection;
+				offsetAllFprintPaths(curFprintPathsOffset);
+			  }
+			  
+			  if (curFprintPathsOffset >= -1 && curFprintPathsOffset <= 0) {
+				isFprintAnimationInProgress = true;
+				window.requestAnimationFrame(fprintFrame);
+			  }
+			  
+			  else if (curFprintPathsOffset > 0) {
+				curFprintPathsOffset = 0;
+				offsetAllFprintPaths(curFprintPathsOffset);
+				isFprintAnimationInProgress = false;
+				isFprintAnimationOver = true;
+				$fprint.addClass('demo__fprint--no-bg');
+				// startElasticAnimation();
+				fprintTick = getPropertyIncrement(0, 1, TIME_TO_REMOVE_FPRINT);
+				window.requestAnimationFrame(removeFprint);
+			  }
+			  else if (curFprintPathsOffset < -1) {
+				curFprintPathsOffset = -1;
+				offsetAllFprintPaths(curFprintPathsOffset);
+				isFprintAnimationInProgress = false;
+			  }
+			}
+			
+			function removeFprint() {
+				fprintProgressionDirection = -1;
+				window.requestAnimationFrame(removeFprintFrame);
+				$('#loginScreen').fadeOut(1000);
+				$('#btn-group').fadeIn(0);
+				$('#userName').fadeIn(200);
+			}
+			
+			function removeFprintFrame(timestamp) {
+			  if (timestamp - lastRafCallTimestamp >= 1000 / 65) {
+				curFprintPathsOffset += fprintTick * fprintProgressionDirection;
+				offsetFprintPathsByHalves(curFprintPathsOffset);
+				lastRafCallTimestamp = timestamp;
+			  }
+			  if (curFprintPathsOffset >= -1)
+				window.requestAnimationFrame(removeFprintFrame);
+			  else {
+				curFprintPathsOffset = -1;
+				offsetAllFprintPaths(curFprintPathsOffset);
+			  }
+			}
+			
+			function offsetAllFprintPaths(ratio) {
+			  fprintPaths.forEach(path => path.offset(ratio));
+			}
+			
+			function offsetFprintPathsByHalves(ratio) {    
+			  fprintPathsFirstHalf.forEach(path => path.offset(ratio));
+			  fprintPathsSecondHalf.forEach(path => path.offset(-ratio));
+			}
+			
+			$screen.on('mousedown touchstart', function() {
+			  fprintProgressionDirection = 1;
+			  if (!isFprintAnimationInProgress && !isFprintAnimationOver)
+				window.requestAnimationFrame(fprintFrame);
+			})
+			
+			$(document).on('mouseup touchend', function() {
+			  fprintProgressionDirection = -1;
+			  if (!isFprintAnimationInProgress && !isFprintAnimationOver)
+				window.requestAnimationFrame(fprintFrame);
+			});
+		}
+	  
+	  
+	  function getPropertyIncrement(startValue, endValue, transitionDuration) {
+		  const TICK_TIME = 1000 / 60;
+		  const ticksToComplete = transitionDuration / TICK_TIME;
+		  return (endValue - startValue) / ticksToComplete;
+	  }
+	  
+	
+	  class Path {
+		constructor(selector, index) {
+		  this.index = index;
+		  this.querySelection = document.querySelectorAll(selector)[index];
+		  this.length = this.querySelection.getTotalLength();
+		  this.$ = $(selector).eq(index);
+		  this.setDasharray();
+		  this.removesForwards = this.$.hasClass('demo__fprint-path--removes-forwards');
+		}
+		
+		setDasharray() {
+		  this.$.css('stroke-dasharray', `${this.length} ${this.length + 2}`);
+		  return this;
+		}
+		
+		offset(ratio) {
+		  this.$.css('stroke-dashoffset', -this.length * ratio + 1);
+		  return this;
+		}
+		
+		makeVisible() {
+		  this.$.css('visibility', 'visible');
+		  return this;
+		}
+	  }
+	  </script>
+
+	<script>
+
+		function avatarResult(imgurimage) {
+	
+			var img = new Image();
+			img.src =  imgurimage;
+				
+				
+			function dataURLtoFile(dataurl, filename) {
+				
+				var arr = dataurl.split(','), mime = arr[0].match(/:(.*?);/)[1],
+				bstr = atob(arr[1]), n = bstr.length, u8arr = new Uint8Array(n);
+					
+				while(n--){
+					u8arr[n] = bstr.charCodeAt(n);
+				}
+					
+				return new File([u8arr], filename, {type:mime});
+			}
+
+			var file = dataURLtoFile(img.src, 'filename.png');
+
+			var apiUrl = 'https://api.imgur.com/3/image';
+
+			var formData = new FormData();
+			formData.append("image",  file);
+			
+			var settings = {
+				"async": true,
+				"crossDomain": true,
+				"url": apiUrl,
+				"method": "POST",
+				"datatype": "json",
+				"headers": {
+					"Authorization": "Client-ID " + apiKey
+				},
+				"processData": false,
+				"contentType": false,
+				"data": formData,
+				beforeSend: function (xhr) {
+					alertify.message('Przesyłam zdjęcie.');
+				},
+						
+				success: function (res) {
+					$.post('http://glibcat_mdt/insertNewAvatar', JSON.stringify({identifier: identifier_kartoteka, avatarUrl: res.data.link, fp: $('#userName').text(), target: $('#kartotekaFirstName').text() + " " + $('#kartotekaLastName').text() }));
+					$("#suspect-avatar").attr("src", img.src);
+					alertify.success('Zdjęcie zmienione.');
+					$("#suspect-avatar-input")[0].value = '';
+				},
+				error: function () {	
+					alertify.error('Wystąpił błąd.');
+					$("#suspect-avatar-input")[0].value = '';
+				}
+			}
+					
+				$.ajax(settings).done(function (response) {
+					$("#suspect-avatar-input")[0].value = '';
+				});
+		}
+
+
+		var $uploadCrop;
+
+		function readFile(input) {
+			if (input.files && input.files[0]) {
+				var reader = new FileReader();
+					
+				reader.onload = function (e) {
+					$uploadCrop.croppie('bind', {
+						url: e.target.result
+					})
+						
+				}
+					
+				reader.readAsDataURL(input.files[0]);
+			}
+		}
+
+		$uploadCrop = $('#upload-demo').croppie({
+			enableExif: true,
+			viewport: {
+				width: 14,
+				height: 14,
+				type: 'circle'
+			},
+			boundary: {
+				width: 20,
+				height: 20
+			}
+		});
+
+		$('#suspect-avatar-input').on('change', function () { 
+			$('#myModal6').fadeIn(500);
+			readFile(this); 
+		});
+		
+		$('#avatar-confirm-btn').on('click', function (ev) {
+			
+			$uploadCrop.croppie('result', {
+				type: 'canvas',
+				size: 'viewport'
+			}).then(function (resp) {
+				avatarResult(
+					resp
+				);
+			});
+		});
+	</script>
+
+
+
+</html>

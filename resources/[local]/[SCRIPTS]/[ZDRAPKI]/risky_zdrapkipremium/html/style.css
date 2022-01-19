@@ -1,0 +1,87 @@
+
+@import url('https://fonts.googleapis.com/css?family=Lato&display=swap');
+body {
+    width: 100%;
+    height: 100%;
+    border: none;
+    margin: 0px;
+    overflow: hidden;
+    font-family: 'Lato', sans-serif;
+  
+  }
+  
+  .general, .general2, .general3, .general4, .general5, .general6, .general7, .general8, .general9
+  {
+    margin-left:auto;
+    margin-right:auto;
+    width:700px;
+    height:300px;
+    margin-top:390px;
+    display:none;
+    background-image: url('bg.png');
+    box-shadow: 0 0 20px black;
+    border-radius:10px;
+  }
+
+  
+
+  
+
+  .content2
+  {
+    position: absolute;
+    top:520px;
+    left:840px;
+     width:400px;
+    height:70px;
+    border:5px solid rgb(104, 104, 104);
+    z-index: 1;
+    text-align:center;
+    font-size:27px;
+   padding-top:30px;
+    font-weight:700;
+    
+    background: rgb(168, 168, 168);
+    border-radius: 10px;
+    text-shadow: 0 0 10px black;
+    animation: rainbow 10s infinite;
+  }
+  .anim
+  {
+    animation: slide 3s;
+
+
+  }
+
+  @keyframes slide
+  {
+    0%
+    {
+      opacity:1;
+
+
+    }
+    100%
+    {
+    opacity:0;
+    }
+  }
+
+  .zdrapa
+  {
+    z-index: 0;
+    position: absolute;
+    height:180px;
+    width:480px;
+  border-radius:10px; 
+    background-color:rgba(78, 78, 78, 0);
+      top: 500px;
+      left:800px;
+
+  }
+
+  @keyframes rainbow{
+    0%{color: black;}	
+  }
+  
+  

@@ -1,0 +1,225 @@
+@import url('https://fonts.googleapis.com/css?family=Syncopate|Unica+One');
+@import url('https://fonts.googleapis.com/css?family=Roboto:400,400italic,500,500italic,700,700italic,900,900italic,300italic,300,100italic,100');
+
+body, html {
+	overflow-y: hidden;
+}
+/* main.css */
+button {
+	margin: 2px auto;
+	padding: 10px 15px;
+	cursor: pointer;
+	width: 40%;
+	display: block;
+	text-transform: uppercase;
+    font-family: 'Unica One', cursive;
+	font-size: 11px;
+	border: 1px solid #000000;
+	color: blue;
+    background-color: #000000;
+    border-radius: 15px;
+	filter: alpha(opacity=75);
+}
+
+.job {
+	margin-bottom: -2px !important;
+}
+
+.hiddenjob {
+	margin-bottom: 10px !important;
+}
+
+.general {
+	font-family: 'Roboto', sans-serif;
+	height: 700px;
+	background: ;
+	color: white;
+	width: 800px;
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	margin-top: -250px;
+	margin-left: -400px;
+	padding-bottom: 20px;
+}
+
+.esx {
+	font-family: 'Roboto', sans-serif;
+	height: 700px;
+	background: ;
+	color: white;
+	width: 800px;
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	margin-top: -250px;
+	margin-left: -400px;
+	padding-bottom: 20px;
+}
+
+.jobs {
+	font-family: 'Roboto', sans-serif;
+	height: 700px;
+	background: ;
+	color: white;
+	width: 800px;
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	margin-top: -250px;
+	margin-left: -400px;
+	padding-bottom: 20px;
+}
+
+.jobs2 {
+	font-family: 'Roboto', sans-serif;
+	height: 700px;
+	background: ;
+	color: white;
+	width: 800px;
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	margin-top: -180px;
+	margin-left: -400px;
+	padding-bottom: 10px;
+}
+.listChar {
+	font-family: 'Roboto', sans-serif;
+	height: 700px;
+	background: ;
+	color: white;
+	width: 800px;
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	margin-top: -250px;
+	margin-left: -400px;
+	padding-bottom: 20px;
+}
+
+.vehicles {
+	font-family: 'Roboto', sans-serif;
+	height: 700px;
+	background: ;
+	color: white;
+	width: 800px;
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	margin-top: -250px;
+	margin-left: -400px;
+	padding-bottom: 20px;
+}
+
+.doors {
+	font-family: 'Roboto', sans-serif;
+	height: 700px;
+	background: ;
+	color: white;
+	width: 800px;
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	margin-top: -250px;
+	margin-left: -400px;
+	padding-bottom: 20px;
+}
+
+.windows {
+	font-family: 'Roboto', sans-serif;
+	height: 700px;
+	background: ;
+	color: white;
+	width: 800px;
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	margin-top: -250px;
+	margin-left: -400px;
+	padding-bottom: 20px;
+}
+
+.characters {
+	font-family: 'Roboto', sans-serif;
+	height: 700px;
+	background: ;
+	color: white;
+	width: 800px;
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	margin-top: -250px;
+	margin-left: -400px;
+	padding-bottom: 20px;
+}
+
+.char-menu {
+	font-family: 'Roboto', sans-serif;
+	height: 700px;
+	background: ;
+	color: white;
+	width: 800px;
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	margin-top: -250px;
+	margin-left: -400px;
+	padding-bottom: 20px;
+}
+
+.list {
+	font-family: 'Roboto', sans-serif;
+	margin: 10px 2px;
+	padding: 10px 24px;
+	background: ;
+	color: white;
+	width: 240px;
+	position: relative;
+	top: 26%;
+	left: 43.7%;
+
+}
+
+.change {
+	font-family: 'Roboto', sans-serif;
+	margin: 10px 2px;
+	padding: 10px 24px;
+	background: ;
+	color: white;
+	width: 240px;
+	position: relative;
+	top: 26%;
+	left: 43.7%;
+
+}
+
+.delete {
+	font-family: 'Roboto', sans-serif;
+	margin: 10px 2px;
+	padding: 10px 24px;
+	background: ;
+	color: white;
+	width: 240px;
+	position: relative;
+	top: 26%;
+	left: 43.7%;
+
+}
+
+
+
+
+#close {
+	display: inline-block;
+	float: right;
+	padding: 5px;
+	padding-right: 10px;
+	color: rgb(0, 129, 161);
+}
+
+
+/* change look of buttons when hovering over them */
+button:hover {
+	background-image:  repeating-linear-gradient(to right, rgb(18,105,202), rgb(0,242,96));
+}

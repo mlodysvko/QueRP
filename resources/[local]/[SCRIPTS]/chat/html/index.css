@@ -1,0 +1,134 @@
+@import url('https://use.fontawesome.com/releases/v5.12.0/css/all.css');
+.color-0{color: #ffffff;}
+.color-1{color: #ff4444;}
+.color-2{color: #99cc00;}
+.color-3{color: #ffbb33;}
+.color-4{color: #0099cc;}
+.color-5{color: #33b5e5;}
+.color-6{color: #aa66cc;}
+.color-8{color: #cc0000;}
+.color-9{color: #cc0068;}
+
+* {
+  font-family: 'Quicksand', sans-serif;
+  margin: 0;
+  padding: 0;
+  font-size: 0.9rem;
+  transition: all 1s ease;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.no-grow {
+  flex-grow: 0;
+}
+
+em {
+  font-style: normal;
+}
+
+#app {
+  font-family: 'Quicksand', sans-serif;
+  color: white;
+  background-color: transparent;
+}
+
+.chat-window {
+  position: absolute;
+  left: 15px;
+  width: 20%;
+  height: 530px;
+  animation-duration: 1s;
+  -webkit-animation-duration: 1s;
+}
+
+.chat-messages {
+  position: relative;
+  height: 99%;
+  font-size: 1.0rem;
+  padding: 20px;
+  text-shadow: 0px 0px 4px black;
+  font-weight: bold;
+
+  overflow-x: hidden;
+  overflow-y: hidden;
+}
+
+
+.chat-input {
+  font-size: 0.9rem;
+  position: absolute;
+
+  top: 30%;
+  left: 50px;
+  width: 20%;
+
+  box-sizing: border-box;
+}
+
+.prefix {
+  position: absolute;
+  margin-top: 7px;
+  left: -17px;
+  transform: scale(1.5);
+}
+
+textarea {
+  font-size: 1.0rem;
+  display: block;
+  box-sizing: content-box;
+  padding: 10px;
+  color: white;
+  background-color: #00000080;
+  max-height: 20px;
+  width: 125%;
+  overflow: hidden;
+  border-radius: 25px;
+  border: 1px white solid;
+}
+
+textarea:focus, input:focus {
+    outline: none;
+}
+
+.msg {
+  margin-bottom: 5px;
+}
+
+.twitter
+{
+  height: 10%;
+  width: auto;
+  background: #00c3ff;
+  border-radius: 2.2px;
+  color: #0000;
+}
+
+.multiline {
+  margin-left: 1.5rem;
+  white-space: pre-line;
+}
+
+.suggestions {
+  list-style-type: none;
+  padding: 5px;
+  padding-left: 30px;
+  font-size: 0.9rem;
+  box-sizing: border-box;
+  color: white;
+  background-color: rgba(0, 0, 0, 0.3);
+  width: 130%;
+  border-radius: 0px 0px 25px 25px;
+}
+
+.help {
+  color: #b0bbbd;
+}
+
+.disabled {
+  color: #b0bbbd;
+}
+
+.suggestion {
+  margin-bottom: 5px;
+}

@@ -1,0 +1,98 @@
+[
+    {
+        "banid": 1,
+        "identifiers": [
+            "steam:110000149c66755",
+            "license:9e45e884ee9098dc8d974ededdf88a5f42a5e518",
+            "xbl:2535431825392640",
+            "live:914798923274073",
+            "discord:564825741729071115",
+            "license2:9e45e884ee9098dc8d974ededdf88a5f42a5e518",
+            "ip:31.183.140.204"
+        ],
+        "reason": "cheaty ( Gracz: BARTUS ), Zablokowany przez: guccimil",
+        "name": "BARTUS",
+        "banner": "guccimil",
+        "expire": 10444633200
+    },
+    {
+        "expire": 10444633200,
+        "identifiers": [
+            "steam:11000010a1d3883",
+            "license:fdd2846ccac2db4e25ca5f5a382c72d06cf20b4f",
+            "xbl:2535423738494219",
+            "live:985154377394815",
+            "discord:353583975102545921",
+            "fivem:4014691",
+            "license2:fdd2846ccac2db4e25ca5f5a382c72d06cf20b4f",
+            "ip:109.196.90.53"
+        ],
+        "reason": "Nie określono przyczyny ( Gracz: GrU88y ), Zablokowany przez: BosSmaN",
+        "name": "GrU88y",
+        "banner": "BosSmaN",
+        "banid": 2
+    },
+    {
+        "banid": 3,
+        "identifiers": [
+            "steam:11000010a8c11cf",
+            "license:456d6ee9ef68bec33b612d19672022b127fd3e6e",
+            "xbl:2535465917212403",
+            "live:1055518855023614",
+            "discord:568457285324767253",
+            "license2:456d6ee9ef68bec33b612d19672022b127fd3e6e",
+            "ip:213.134.174.102"
+        ],
+        "reason": "trol ( Gracz: Nero ), Zablokowany przez: vrxti",
+        "name": "Nero",
+        "banner": "vrxti",
+        "expire": 10444633200
+    },
+    {
+        "banid": 4,
+        "identifiers": [
+            "steam:110000144779c62",
+            "license:88e3b2e408a43f26c61a9be64ec0e59b70956a36",
+            "xbl:2535429986708530",
+            "live:985154825290755",
+            "discord:790353801244442635",
+            "license2:88e3b2e408a43f26c61a9be64ec0e59b70956a36",
+            "ip:77.45.124.30"
+        ],
+        "reason": "Nie określono przyczyny ( Gracz: Młody.OG ), Zablokowany przez: BosSmaN",
+        "name": "Młody.OG",
+        "banner": "BosSmaN",
+        "expire": 10444633200
+    },
+    {
+        "banid": 5,
+        "identifiers": [
+            "steam:110000144779c62",
+            "license:88e3b2e408a43f26c61a9be64ec0e59b70956a36",
+            "xbl:2535429986708530",
+            "live:985154825290755",
+            "discord:790353801244442635",
+            "license2:88e3b2e408a43f26c61a9be64ec0e59b70956a36",
+            "ip:77.45.124.30"
+        ],
+        "reason": "wypierdalaj ( Gracz: Młody.OG ), Zablokowany przez: BosSmaN",
+        "name": "Młody.OG",
+        "banner": "BosSmaN",
+        "expire": 10444633200
+    },
+    {
+        "banid": 6,
+        "identifiers": [
+            "steam:11000014a773d13",
+            "license:dae586b6f9e1442e4ea363092d950cdcb1306541",
+            "discord:774569370898792478",
+            "fivem:5037738",
+            "license2:dae586b6f9e1442e4ea363092d950cdcb1306541",
+            "ip:31.60.128.106"
+        ],
+        "reason": " 1 nieposzanowanie zycia ( Gracz: Olix_To_Ziomal ), Zablokowany przez: Tusiek",
+        "name": "Olix_To_Ziomal",
+        "banner": "Tusiek",
+        "expire": 10444633200
+    }
+]
